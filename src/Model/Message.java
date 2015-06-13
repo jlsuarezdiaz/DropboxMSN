@@ -5,6 +5,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 package Model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 /**
  * Class message. Contains all the information relative to a message.
  * @author Juan Luis
@@ -93,15 +99,47 @@ public class Message {
     
     /**
      * Writes the message in a file.
-     * @param filename 
+     * @param filename File's name.
      */
     public void write(String filename){
-        
+        FileWriter fw = null;
+        try{
+            fw = new FileWriter(filename);
+            fw.write(sender + IO_LIM + text + IO_LIM + Boolean.toString(isPublic) + IO_LIM);
+        }
+        catch(IOException ex){}
+        finally{
+            try{
+                if(fw != null) fw.close();
+            }
+            catch(IOException ex){}
+        }
     }
+    
+    /**
+     * Reads the message from a file.
+     * @param filename File's name.
+     */
+    public void read(String filename){
+        Scanner scan = null;
+        File f = new File(filename);
+        
+        if(f.exists()){
+            try {
+                scan = new Scanner(f);
+                scan.useDelimiter(IO_LIM);
+                sender = scan.next();
+                text = scan.next();
+                isPublic = Boolean.parseBoolean(scan.next());
+            } catch (FileNotFoundException ex){}           
+        }
+    }
+    
     /**
      * Obtains a string with the message.
      * @return String with the message.
      */
+    @Override
     public String toString(){
         return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
     }
