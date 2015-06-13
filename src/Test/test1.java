@@ -6,6 +6,7 @@
 package Test;
 
 import Model.User;
+import Model.UserOverflowException;
 import Model.UserState;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import static java.lang.Thread.sleep;
  * @author Juan Luis
  */
 public class test1 {
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException, UserOverflowException{
       //  FileWriter f = new FileWriter("Hola.txt");
       //  f.write("XDDDD");
         User a = new User("pepe");

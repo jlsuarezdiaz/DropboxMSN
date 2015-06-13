@@ -78,12 +78,12 @@ public class User {
      * Constructor
      * @param name User's name.
      */
-    public User(String name){
+    public User(String name) throws UserOverflowException{
         this.name = name;
         this.uid = getNewId();
         this.state = UserState.ONLINE;
         this.current_time = new Date();
-        write();
+        if(uid != -1) write();
     }
     
     // ---------- GETTER METHODS ---------- //
@@ -135,20 +135,28 @@ public class User {
         return MSNKER + "_usr" + Integer.toString(uid) + ".usr";
     }
     
+    /**
+     * 
+     * @return Max number of users.
+     */
+    public static int getMaxUsers(){
+        return MAX_USERS;
+    }
+    
     // ---------- PUBLIC METHODS ---------- //
     
     /**
      * Find a new user id.
      * @return Integer with the new user id.
      */
-    public int getNewId(){
+    public int getNewId() throws UserOverflowException{
         for(int i = 1; i < MAX_USERS; i++){
             File f = new File(getUserFile(i));
             if(!f.exists()){
                 return i;
             }
         }
-        return -1;
+        throw new UserOverflowException("No users space available.");
     }
     
     /**
@@ -167,6 +175,12 @@ public class User {
         update();
     }
     
+    /**
+     * Checks if user state is valid.
+     */
+    public boolean validState(){
+        return state != UserState.OFF;
+    }
     
     /**
      * Erases the corresponding user file.
@@ -180,9 +194,17 @@ public class User {
      * Writes the corresponding user file and updates it.
      */
     public void write(){
-        FileWriter fw = null;
+        write(getUserFile(uid));
+    }
+    
+    /**
+     * Writes to any file.
+     * @param file 
+     */
+    public void write(String file){
+                FileWriter fw = null;
         try{
-            fw = new FileWriter(getUserFile(uid));
+            fw = new FileWriter(file);
             fw.write(Integer.toString(uid) + IO_LIM);
             fw.write(name + IO_LIM);
             fw.write(state.toString() + IO_LIM);
@@ -202,8 +224,16 @@ public class User {
      * Reads the corresponding user file and updates the user.
      */
     public void read(){
-        Scanner scan = null;
-        File f = new File(getUserFile(uid));
+        read(getUserFile(uid));
+    }
+    
+    /**
+     * Reads an user from any file.
+     * @param file 
+     */
+    public void read(String file){
+                Scanner scan = null;
+        File f = new File(file);
         
         if(f.exists()){
             try {

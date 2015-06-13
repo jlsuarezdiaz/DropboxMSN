@@ -6,6 +6,8 @@
 package Test;
 
 import Model.Message;
+import Model.User;
+import Model.UserOverflowException;
 
 /**
  *
@@ -13,7 +15,7 @@ import Model.Message;
  */
 public class test2 {
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws UserOverflowException{
         Message a = new Message("Pepe","Holaaaaaaa xd",true);
         System.out.println(a.toString());
         Message b = new Message("Pepa","Holas xddd",false);
