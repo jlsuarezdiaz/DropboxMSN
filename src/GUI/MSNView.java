@@ -11,6 +11,8 @@ import Model.User;
 import Model.UserOverflowException;
 import Model.UserState;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -30,10 +33,47 @@ public class MSNView extends javax.swing.JFrame {
      */
     private MSNController msn_ctrl;
    
+    ActionListener taskReader;
+    
+    ActionListener taskPrivateReader;
+    
+    ActionListener taskUserUpdater;
+    
+    ActionListener taskListUserUpdater;
+    
+    Timer timerReader;
+    
+    Timer timerPrivateReader;
+    
+    Timer timerUserUpdater;
+    
+    Timer timerListUserUpdater;
+    
     /**
      * Creates new form MSNView
      */
     public MSNView() {
+        this.taskReader = (ActionEvent evt) -> {
+            msn_ctrl.reader();
+        };
+        
+        this.taskPrivateReader = (ActionEvent evt) -> {
+            msn_ctrl.privateReader();
+        };
+        
+        this.taskUserUpdater = (ActionEvent evt) -> {
+            try {
+                msn_ctrl.updateUser();
+            } catch (UserOverflowException ex) {
+                 showUserOverflowMsg(ex);
+                 msn_ctrl.stop();
+            }
+        };
+        
+        this.taskListUserUpdater = (ActionEvent evt) -> {
+            msn_ctrl.getUserList();
+        };
+        
         initComponents();
         this.addWindowListener (new WindowAdapter() {
             @Override
@@ -42,6 +82,11 @@ public class MSNView extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
+        
+        timerReader = new Timer(100, taskReader);
+        timerPrivateReader = new Timer(100,taskPrivateReader);
+        timerUserUpdater = new Timer(300000,taskUserUpdater);
+        timerListUserUpdater = new Timer(5000,taskListUserUpdater);      
     }
 
     public void showView(){
@@ -50,12 +95,20 @@ public class MSNView extends javax.swing.JFrame {
     
     public void setMSN(MSNController msn){
         this.msn_ctrl = msn;
+        MyUserPanel.setUser(msn_ctrl.getUser());
+        MyUserPanel.repaint();
+        fillUserPanel(msn_ctrl.getUserList());
+        repaint();
+        timerReader.start();
+        timerPrivateReader.start();
+        timerUserUpdater.start();
+        timerListUserUpdater.start();
     }
     
     public void enableMSNComponents(boolean enabled){
         this.BtPrivate.setEnabled(enabled);
         this.BtSend.setEnabled(enabled);
-        this.ComboUserState.setEnabled(enabled);
+        //this.ComboUserState.setEnabled(enabled);
         this.MessagePanel.setEnabled(enabled);
         this.MyUserPanel.setEnabled(enabled);
         this.TextMessage.setEnabled(enabled);
@@ -283,6 +336,7 @@ public class MSNView extends javax.swing.JFrame {
     private void ComboUserStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboUserStateActionPerformed
         try {
             msn_ctrl.setState((UserState) ComboUserState.getSelectedItem());
+            MyUserPanel.setUser(msn_ctrl.getUser());
         } catch (UserOverflowException ex) {
             showUserOverflowMsg(ex);
         }
@@ -302,6 +356,7 @@ public class MSNView extends javax.swing.JFrame {
             Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PUBLIC);
             msn_ctrl.send(msg);
         }
+        TextMessage.setText("");
     }//GEN-LAST:event_BtSendActionPerformed
 
     private void BtExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExitActionPerformed

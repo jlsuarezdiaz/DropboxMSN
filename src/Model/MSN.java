@@ -6,6 +6,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.Random;
 
 /**
  *
@@ -60,10 +61,10 @@ public class MSN {
      */
     private static String getMsgFile(int uid, int channel){
         if(uid == 0){
-            return MSGDIR + "mensaje" + Integer.toString(channel) + ".msg";
+            return MSGDIR + "mensaje" + Integer.toString(channel) + ".dbmsg";
         }
         else{
-            return PRIVDIR + Integer.toString(uid) + "_" + Integer.toString(channel) + ".pmsg";
+            return PRIVDIR + Integer.toString(uid) + "_" + Integer.toString(channel) + ".dpmsg";
         }
     }
     
@@ -92,8 +93,12 @@ public class MSN {
      */
     public MSN(User user){
         this.my_user = user;
-        user_list = new User[MAX_CHANNELS];
-        current_channel = 0;
+        user_list = new User[MAX_USERS];
+        for(int i = 0; i < MAX_USERS; i++){
+            user_list[i] = new User();
+        }
+        Random r = new Random();
+        current_channel = r.nextInt(MAX_CHANNELS);
     }
     
     // ---------- GET METHODS ----------//
@@ -160,8 +165,7 @@ public class MSN {
     /**
      * Updates the users list and erases inactive users.
      */
-    public void checkUsers() throws UserOverflowException{
-        my_user.update();
+    public void checkUsers(){
         for(User u : user_list){
             u.read();
             if(u.getDate() != null && getTimeDifference(my_user.getDate(),u.getDate()) > MAX_INACTIVE_PERIOD){

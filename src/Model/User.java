@@ -120,6 +120,9 @@ public class User {
         return current_time;
     }
     
+    public static DateFormat getDateFormat(){
+        return df;
+    }
     /**
      * Get User's directory.
      * @return User's directory.

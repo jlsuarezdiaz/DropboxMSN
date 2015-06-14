@@ -157,7 +157,16 @@ public class Message {
         //return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
     }
     
-    public boolean equals(Message msg){
-       return this.sender.equals(msg.getSender()) && this.text.equals(msg.getText()) && this.kind.equals(msg.getKind());
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null)
+            return false;
+        if(obj == this)
+            return true;
+        if(!(obj.getClass().getSimpleName().equals("Message")))
+            return false;
+        
+        Message msg = (Message) obj;
+        return this.sender.equals(msg.getSender()) && this.text.equals(msg.getText()) && this.kind.equals(msg.getKind());
     }
 }

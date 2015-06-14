@@ -66,6 +66,9 @@ public class UserView extends javax.swing.JPanel {
      */
     public void setUser(User u){
         this.userModel = u;
+        this.labelName.setText(u.getName());
+        this.labelState.setText(u.getState().toString());
+        this.labelDate.setText((u.getDate() == null)?"":User.getDateFormat().format(u.getDate()));
         if(userModel.getState() == UserState.OFF){
             this.setVisible(false);
         }

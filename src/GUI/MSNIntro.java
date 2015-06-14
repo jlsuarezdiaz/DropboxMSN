@@ -59,9 +59,9 @@ public class MSNIntro extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dropbox MSN");
         setAlwaysOnTop(true);
-        setMaximumSize(new java.awt.Dimension(333, 464));
-        setMinimumSize(new java.awt.Dimension(333, 464));
-        setPreferredSize(new java.awt.Dimension(333, 464));
+        setMaximumSize(new java.awt.Dimension(350, 500));
+        setMinimumSize(new java.awt.Dimension(350, 500));
+        setPreferredSize(new java.awt.Dimension(350, 500));
 
         labelWelcome.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,7 +108,7 @@ public class MSNIntro extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                    .addComponent(labelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +152,7 @@ public class MSNIntro extends javax.swing.JDialog {
                 .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btStart)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,7 +169,7 @@ public class MSNIntro extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btStartActionPerformed
 
-    public User getUserName(){
+    public User getUser(){
         this.setVisible(true);
         return user;
     }
