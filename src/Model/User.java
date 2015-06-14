@@ -173,8 +173,8 @@ public class User {
         if(state != UserState.OFF){
             uid = getNewId();
             current_time = new Date();
-            write();
         }
+        write();
     }
     
     /**
@@ -244,7 +244,7 @@ public class User {
      * @param file 
      */
     public void read(String file){
-                Scanner scan = null;
+        Scanner scan = null;
         File f = new File(file);
         
         if(f.exists()){
@@ -260,7 +260,7 @@ public class User {
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             }
             finally{
-                scan.close();
+                if(scan != null) scan.close();
             }
         }
     }

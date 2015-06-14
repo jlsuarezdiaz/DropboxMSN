@@ -45,8 +45,8 @@ public class Message {
      * @param isPublic 
      */
     private void set(String sender, String text, MessageKind kind){
-        this.sender = sender;
-        this.text = text;
+        this.sender = "".equals(sender)?" ":sender;
+        this.text = "".equals(text)?" ":text;
         this.kind = kind;
     }
     
@@ -137,9 +137,9 @@ public class Message {
             // For invalid message reading.
             catch(NoSuchElementException ex){ scan.close(); f.delete();}
             finally{
-                scan.close();
+                if(scan != null) scan.close();
             }
-            System.out.println("Leido OK " + filename);
+            //System.out.println("Leido OK " + filename);
         }
     }
     
