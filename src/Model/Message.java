@@ -150,7 +150,14 @@ public class Message {
             ret = (sender + " ha iniciado sesión.");
         else if(kind == MessageKind.END)
             ret = (sender + " se ha desconectado.");
+        else if(kind == MessageKind.JUSTTEXT)
+            ret = text;
+        
         return ret;
         //return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
+    }
+    
+    public boolean equals(Message msg){
+       return this.sender.equals(msg.getSender()) && this.text.equals(msg.getText()) && this.kind.equals(msg.getKind());
     }
 }

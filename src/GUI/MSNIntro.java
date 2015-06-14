@@ -5,8 +5,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 package GUI;
 
+import Model.User;
+import Model.UserOverflowException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,7 +21,7 @@ public class MSNIntro extends javax.swing.JDialog {
     /**
      * User's name.
      */
-    String userName;
+    User user;
     
     /**
      * Creates new form MSNIntro
@@ -156,13 +160,18 @@ public class MSNIntro extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
-        userName = this.txtUserName.getText();
-        this.dispose();
+        try {
+            user = new User(this.txtUserName.getText());
+            this.dispose();
+        } catch (UserOverflowException ex) {
+            MSNView.showUserOverflowMsg(ex);
+            System.exit(0);
+        }
     }//GEN-LAST:event_btStartActionPerformed
 
-    public String getUserName(){
+    public User getUserName(){
         this.setVisible(true);
-        return userName;
+        return user;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -148,6 +148,7 @@ public class User {
     /**
      * Find a new user id.
      * @return Integer with the new user id.
+     * @throws Model.UserOverflowException
      */
     public int getNewId() throws UserOverflowException{
         for(int i = 1; i < MAX_USERS; i++){
@@ -161,16 +162,22 @@ public class User {
     
     /**
      * Updates user time.
+     * @throws Model.UserOverflowException
      */
-    public void update(){
-        current_time = new Date();
-        write();
+    public void update() throws UserOverflowException{
+        erase();
+        if(state != UserState.OFF){
+            uid = getNewId();
+            current_time = new Date();
+            write();
+        }
     }
     
     /**
      * Updates user state.
+     * @throws Model.UserOverflowException
      */
-    public void changeState(UserState state){
+    public void changeState(UserState state) throws UserOverflowException{
         this.state = state;
         update();
     }
@@ -202,7 +209,7 @@ public class User {
      * @param file 
      */
     public void write(String file){
-                FileWriter fw = null;
+        FileWriter fw = null;
         try{
             fw = new FileWriter(file);
             fw.write(Integer.toString(uid) + IO_LIM);

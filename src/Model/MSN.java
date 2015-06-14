@@ -96,6 +96,29 @@ public class MSN {
         current_channel = 0;
     }
     
+    // ---------- GET METHODS ----------//
+    
+    /**
+     * 
+     * @return Messenger user.
+     */
+    public User getUser(){
+        return my_user;
+    }
+    
+    /**
+     * 
+     * @return list of users in messenger. 
+     */
+    public User[] getUserList(){
+        return user_list;
+    }
+    
+    public static int getMaxChannels(){
+        return MAX_CHANNELS;
+    }
+    
+    
     // --------- PUBLIC METHODS ---------//
     
     /**
@@ -137,7 +160,7 @@ public class MSN {
     /**
      * Updates the users list and erases inactive users.
      */
-    public void checkUsers(){
+    public void checkUsers() throws UserOverflowException{
         my_user.update();
         for(User u : user_list){
             u.read();
@@ -145,5 +168,13 @@ public class MSN {
                 u.erase();
             }
         }
+    }
+    
+    /**
+     * Sets the state of the messenger user.
+     * @param state New state.
+     */
+    public void setState(UserState state) throws UserOverflowException{
+        my_user.changeState(state);
     }
 }

@@ -17,6 +17,8 @@ public class UserView extends javax.swing.JPanel {
 
     private User userModel;
     
+    private boolean isSelected;
+    
     /**
      * Private method to set colors.
      * @param c Color to set.
@@ -27,11 +29,35 @@ public class UserView extends javax.swing.JPanel {
         this.labelDate.setForeground(c);
     }
     
+    private void setBackground(){
+        if(isSelected){
+            this.setBackground(new Color(0x00FFFF));
+        }
+        else{
+            this.setBackground(new Color(0xF0F0F0));
+        }
+    }
     /**
      * Creates new form UserView
      */
     public UserView() {
         initComponents();
+        isSelected = false;
+    }
+    
+    /**
+     * Get the user
+     * @return Model User.
+     */
+    public User getUser(){
+        return userModel;
+    }
+    
+    /**
+     * @return true if and only if the user is selected.
+     */
+    public boolean isSelected(){
+        return isSelected;
     }
     
     /**
@@ -55,6 +81,13 @@ public class UserView extends javax.swing.JPanel {
         repaint();
     }
 
+    @Override
+    public void setVisible(boolean bln){
+        super.setVisible(bln);
+        isSelected = false;
+        setBackground();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,6 +103,11 @@ public class UserView extends javax.swing.JPanel {
 
         setMaximumSize(new java.awt.Dimension(139, 89));
         setMinimumSize(new java.awt.Dimension(139, 89));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         labelName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,6 +146,12 @@ public class UserView extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        isSelected = !isSelected;
+        setBackground();
+        repaint();
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

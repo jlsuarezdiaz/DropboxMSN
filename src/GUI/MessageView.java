@@ -44,6 +44,7 @@ public class MessageView extends javax.swing.JPanel {
 
         labelText = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(700, 32767));
         setMinimumSize(new java.awt.Dimension(700, 0));
         setPreferredSize(new java.awt.Dimension(700, 50));

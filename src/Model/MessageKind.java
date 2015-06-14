@@ -10,5 +10,5 @@ package Model;
  * @author Juan Luis
  */
 public enum MessageKind {
-    PUBLIC,PRIVATE,BEGIN,END
+    PUBLIC,PRIVATE,BEGIN,END,JUSTTEXT
 }

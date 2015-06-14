@@ -5,8 +5,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 package GUI;
 
+import Model.Message;
+import Model.MessageKind;
+import Model.User;
+import Model.UserOverflowException;
 import Model.UserState;
+import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,12 +26,84 @@ import javax.swing.DefaultComboBoxModel;
 public class MSNView extends javax.swing.JFrame {
 
     /**
+     * MSN Controller.
+     */
+    private MSNController msn_ctrl;
+   
+    /**
      * Creates new form MSNView
      */
     public MSNView() {
         initComponents();
+        this.addWindowListener (new WindowAdapter() {
+            @Override
+            public void windowClosing (WindowEvent e) {
+                msn_ctrl.stop();
+                System.exit(0);
+            }
+        });
     }
 
+    public void showView(){
+        this.setVisible(true);
+    }
+    
+    public void setMSN(MSNController msn){
+        this.msn_ctrl = msn;
+    }
+    
+    public void enableMSNComponents(boolean enabled){
+        this.BtPrivate.setEnabled(enabled);
+        this.BtSend.setEnabled(enabled);
+        this.ComboUserState.setEnabled(enabled);
+        this.MessagePanel.setEnabled(enabled);
+        this.MyUserPanel.setEnabled(enabled);
+        this.TextMessage.setEnabled(enabled);
+        this.UsersPanel.setEnabled(enabled);
+    }
+    
+    public void pushMessage(Message msg){
+        MessageView msgview = new MessageView();
+        msgview.setMessage(msg);
+        msgview.setVisible(true);
+        MessagePanel.add(msgview);
+        MessagePanel.repaint();
+        MessagePanel.revalidate();
+    }
+    
+    public ArrayList<User> getSelectedUsers(){
+       UserView uv;
+       ArrayList<User> users = new ArrayList();
+       for(Component c : UsersPanel.getComponents()){
+           uv = (UserView) c;
+           if(uv.isSelected())
+               users.add(uv.getUser());
+       }
+       return users;
+    }
+    
+    public void fillUserPanel(User[] user_list){
+        UsersPanel.removeAll();
+        for(User u: user_list){
+            UserView uv = new UserView();
+            uv.setUser(u);
+            UsersPanel.repaint();
+        }
+    }
+    
+    public void updateUserPanel(){
+        for(int i = 1; i < User.getMaxUsers(); i++){
+            ((UserView)UsersPanel.getComponent(i)).setUser(msn_ctrl.getUserList()[i]);
+        }
+        UsersPanel.repaint();
+    }
+    
+    public static void showUserOverflowMsg(UserOverflowException ex){
+        JOptionPane.showMessageDialog(null, "Dropbox MSN está desbordado en estos instantes. Inténtelo más tarde." +
+            "\n[Error: " + ex.getMessage() + "]\n",
+            "User Overflow",JOptionPane.ERROR_MESSAGE);
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,6 +175,11 @@ public class MSNView extends javax.swing.JFrame {
         UserScroll.setViewportView(UsersPanel);
 
         ComboUserState.setModel(new DefaultComboBoxModel<>(UserState.values()));
+        ComboUserState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboUserStateActionPerformed(evt);
+            }
+        });
 
         TextMessage.setColumns(20);
         TextMessage.setRows(5);
@@ -102,6 +190,11 @@ public class MSNView extends javax.swing.JFrame {
         BtSend.setForeground(new java.awt.Color(255, 255, 255));
         BtSend.setText("SEND");
         BtSend.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtSendActionPerformed(evt);
+            }
+        });
 
         BtPrivate.setBackground(new java.awt.Color(204, 0, 204));
         BtPrivate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -116,6 +209,11 @@ public class MSNView extends javax.swing.JFrame {
         BtExit.setForeground(new java.awt.Color(255, 255, 255));
         BtExit.setText("EXIT");
         BtExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,40 +280,36 @@ public class MSNView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void ComboUserStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboUserStateActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MSNView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MSNView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MSNView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MSNView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            msn_ctrl.setState((UserState) ComboUserState.getSelectedItem());
+        } catch (UserOverflowException ex) {
+            showUserOverflowMsg(ex);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_ComboUserStateActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MSNView().setVisible(true);
+    private void BtSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSendActionPerformed
+        if(BtPrivate.isSelected()){
+            ArrayList <User> dest = getSelectedUsers();
+            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PRIVATE);
+            for(User u : dest){
+                msn_ctrl.send(msg,u);
+                pushMessage(new Message("","Enviaste a " + u.getName()+ ": " + TextMessage.getText(),MessageKind.JUSTTEXT));
             }
-        });
-    }
+            
+        }
+        else{
+            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PUBLIC);
+            msn_ctrl.send(msg);
+        }
+    }//GEN-LAST:event_BtSendActionPerformed
+
+    private void BtExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExitActionPerformed
+        msn_ctrl.stop();
+        System.exit(0);
+    }//GEN-LAST:event_BtExitActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtExit;

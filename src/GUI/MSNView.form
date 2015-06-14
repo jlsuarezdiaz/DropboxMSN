@@ -206,6 +206,9 @@
           <Connection code="new DefaultComboBoxModel&lt;&gt;(UserState.values())" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboUserStateActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
       <AuxValues>
@@ -240,6 +243,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtSendActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JToggleButton" name="BtPrivate">
       <Properties>
@@ -283,6 +289,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtExitActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
