@@ -32,6 +32,7 @@ public class MessageView extends javax.swing.JPanel {
     public void setMessage(Message m){
         this.messageModel = m;
         this.labelText.setText(messageModel.toString());
+        repaint();
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -10,6 +10,7 @@ import Model.MessageKind;
 import Model.User;
 import Model.UserOverflowException;
 import Model.UserState;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +72,8 @@ public class MSNView extends javax.swing.JFrame {
         };
         
         this.taskListUserUpdater = (ActionEvent evt) -> {
-            msn_ctrl.getUserList();
+            fillUserPanel(msn_ctrl.getUserList());
+            //updateUserPanel();
         };
         
         initComponents();
@@ -140,8 +142,10 @@ public class MSNView extends javax.swing.JFrame {
         for(User u: user_list){
             UserView uv = new UserView();
             uv.setUser(u);
-            UsersPanel.repaint();
+
         }
+        UsersPanel.repaint();
+        UsersPanel.revalidate();
     }
     
     public void updateUserPanel(){
@@ -170,6 +174,7 @@ public class MSNView extends javax.swing.JFrame {
         MyUserPanel = new GUI.UserView();
         MessageScroll = new javax.swing.JScrollPane();
         MessagePanel = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
         UserScroll = new javax.swing.JScrollPane();
         UsersPanel = new javax.swing.JPanel();
         ComboUserState = new javax.swing.JComboBox();
@@ -191,40 +196,21 @@ public class MSNView extends javax.swing.JFrame {
 
         MyUserPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        MessagePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        MessagePanel.setMaximumSize(new java.awt.Dimension(715, 600));
-        MessagePanel.setMinimumSize(new java.awt.Dimension(715, 600));
-        MessagePanel.setPreferredSize(new java.awt.Dimension(715, 400));
+        MessageScroll.setPreferredSize(new java.awt.Dimension(18, 18));
 
-        javax.swing.GroupLayout MessagePanelLayout = new javax.swing.GroupLayout(MessagePanel);
-        MessagePanel.setLayout(MessagePanelLayout);
-        MessagePanelLayout.setHorizontalGroup(
-            MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 713, Short.MAX_VALUE)
-        );
-        MessagePanelLayout.setVerticalGroup(
-            MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        MessagePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        MessagePanel.setMaximumSize(new java.awt.Dimension(720, 32767));
+        MessagePanel.setPreferredSize(new java.awt.Dimension(690, 999999999));
+
+        jToolBar1.setRollover(true);
+        MessagePanel.add(jToolBar1);
 
         MessageScroll.setViewportView(MessagePanel);
 
         UsersPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        UsersPanel.setMaximumSize(new java.awt.Dimension(150, 400));
-        UsersPanel.setMinimumSize(new java.awt.Dimension(150, 400));
-        UsersPanel.setPreferredSize(new java.awt.Dimension(150, 400));
-
-        javax.swing.GroupLayout UsersPanelLayout = new javax.swing.GroupLayout(UsersPanel);
-        UsersPanel.setLayout(UsersPanelLayout);
-        UsersPanelLayout.setHorizontalGroup(
-            UsersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 184, Short.MAX_VALUE)
-        );
-        UsersPanelLayout.setVerticalGroup(
-            UsersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
+        UsersPanel.setMaximumSize(new java.awt.Dimension(200, 100000));
+        UsersPanel.setMinimumSize(new java.awt.Dimension(200, 400));
+        UsersPanel.setPreferredSize(new java.awt.Dimension(200, 400));
         UserScroll.setViewportView(UsersPanel);
 
         ComboUserState.setModel(new DefaultComboBoxModel<>(UserState.values()));
@@ -253,7 +239,15 @@ public class MSNView extends javax.swing.JFrame {
         BtPrivate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BtPrivate.setForeground(new java.awt.Color(255, 255, 255));
         BtPrivate.setText("Private mode");
+        BtPrivate.setToolTipText("Active este botón para iniciar la mensajería privada.");
         BtPrivate.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtPrivate.setContentAreaFilled(false);
+        BtPrivate.setOpaque(true);
+        BtPrivate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtPrivateActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Seleccione un estado:");
 
@@ -274,28 +268,30 @@ public class MSNView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ComboUserState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(MyUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3))
-                    .addComponent(MessageScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE))
+                    .addComponent(MessageScroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UserScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BtSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(UserScroll)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BtExit, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(BtExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(BtPrivate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(8, 8, 8))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,9 +300,9 @@ public class MSNView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(UserScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(MessageScroll))
+                    .addComponent(MessageScroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
@@ -328,6 +324,8 @@ public class MSNView extends javax.swing.JFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addContainerGap())
         );
+
+        MessageScroll.getAccessibleContext().setAccessibleName("");
 
         pack();
         setLocationRelativeTo(null);
@@ -364,6 +362,19 @@ public class MSNView extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_BtExitActionPerformed
 
+    private void BtPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPrivateActionPerformed
+        if(BtPrivate.isSelected()){
+            BtPrivate.setToolTipText("El modo privado está activado. Seleccione a los usuarios de la lista "+
+                 "con los que desea hablar");
+            BtPrivate.setBackground(new Color(0xFFC000));
+        }else{
+            BtPrivate.setToolTipText("Active este botón para iniciar la mensajería privada.");
+            BtPrivate.setBackground(new Color(0xCC00CC));
+        }
+            
+            
+    }//GEN-LAST:event_BtPrivateActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -380,5 +391,6 @@ public class MSNView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

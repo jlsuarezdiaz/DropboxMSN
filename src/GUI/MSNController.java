@@ -60,7 +60,7 @@ public class MSNController {
     public void reader(){
         for(int i = 0; i < MSN.getMaxChannels() && running; i++){
             Message msg = msn.get(i);
-            if(!msg.equals(read_buffers[i])){
+            if(msg != null && !msg.isEmpty() && !msg.equals(read_buffers[i])){
                 read_buffers[i] = msg;
                 view.pushMessage(msg);
             }
@@ -70,8 +70,7 @@ public class MSNController {
     public void privateReader(){
         for(int i = 0; i < MSN.getMaxChannels() && running; i++){
             Message msg = msn.getPrivate(i);
-            if(!msg.equals(private_buffers[i])){
-                private_buffers[i] = msg;
+            if(msg != null && !msg.isEmpty()){
                 view.pushMessage(msg);
             }
         }
