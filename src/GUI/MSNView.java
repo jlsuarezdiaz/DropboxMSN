@@ -142,7 +142,7 @@ public class MSNView extends javax.swing.JFrame {
         for(User u: user_list){
             UserView uv = new UserView();
             uv.setUser(u);
-
+            UsersPanel.add(uv);
         }
         UsersPanel.repaint();
         UsersPanel.revalidate();

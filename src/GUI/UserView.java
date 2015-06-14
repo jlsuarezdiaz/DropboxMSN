@@ -34,8 +34,13 @@ public class UserView extends javax.swing.JPanel {
             this.setBackground(new Color(0x00FFFF));
         }
         else{
-            this.setBackground(new Color(0xF0F0F0));
+            this.setBackground(new Color(0x999999));
         }
+        /**
+         * 0x00FFFF cian
+         * 0xF0F0F0 gris claro
+         * 0x999999 gris oscuro
+         */
     }
     /**
      * Creates new form UserView
@@ -104,6 +109,7 @@ public class UserView extends javax.swing.JPanel {
         labelState = new javax.swing.JLabel();
         labelDate = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(153, 153, 153));
         setMaximumSize(new java.awt.Dimension(139, 89));
         setMinimumSize(new java.awt.Dimension(139, 89));
         addMouseListener(new java.awt.event.MouseAdapter() {

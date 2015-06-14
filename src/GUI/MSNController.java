@@ -26,7 +26,13 @@ public class MSNController {
     
     private Message[] read_buffers;
     
-    private Message[] private_buffers;
+    //private Message[] private_buffers;
+    
+    private void initBuffers(){
+        for(int i = 0; i < MSN.getMaxChannels(); i++){
+            read_buffers[i] = msn.get(i);
+        }
+    }
     
     public MSNController(User u,MSNView view){
         msn = new MSN(u);
@@ -34,10 +40,13 @@ public class MSNController {
         running = false;
         view.enableMSNComponents(running);
         this.read_buffers = new Message[MSN.getMaxChannels()];
-        this.private_buffers = new Message[MSN.getMaxChannels()];
+        //this.private_buffers = new Message[MSN.getMaxChannels()];
     }
     
+    
+    
     public void run(){
+        initBuffers();
         running = true;
         view.enableMSNComponents(running);
         msn.send(new Message(msn.getUser().getName(),"",MessageKind.BEGIN));
@@ -47,6 +56,7 @@ public class MSNController {
         running = false;
         view.enableMSNComponents(running);
         msn.send(new Message(msn.getUser().getName(),"",MessageKind.END));
+        getUser().erase();
     }
     
     public void send(Message msg){
