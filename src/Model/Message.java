@@ -29,7 +29,7 @@ public class Message {
     /**
      * Indicates whether message is public.
      */
-    private boolean isPublic;
+    private MessageKind kind;
     
     /**
      * Input/Output delimiter.
@@ -42,17 +42,17 @@ public class Message {
      * @param text
      * @param isPublic 
      */
-    private void set(String sender, String text, boolean isPublic){
+    private void set(String sender, String text, MessageKind kind){
         this.sender = sender;
         this.text = text;
-        this.isPublic = isPublic;
+        this.kind = kind;
     }
     
     /**
      * Default constructor.
      */
     public Message(){
-        set("","",true);
+        set("","",MessageKind.PUBLIC);
     }
     /**
      * Constructor.
@@ -60,8 +60,8 @@ public class Message {
      * @param text
      * @param isPublic 
      */
-    public Message(String sender, String text, boolean isPublic){
-        set(sender,text,isPublic);
+    public Message(String sender, String text, MessageKind kind){
+        set(sender,text,kind);
     }
     
     /**
@@ -70,7 +70,7 @@ public class Message {
      * @param text 
      */
     public Message(String sender, String text){
-        set(sender,text,true);
+        set(sender,text,MessageKind.PUBLIC);
     }
     
     /**
@@ -93,8 +93,8 @@ public class Message {
      * 
      * @return isPublic
      */
-    public boolean isPublic(){
-        return isPublic;
+    public MessageKind getKind(){
+        return kind;
     }
     
     /**
@@ -105,7 +105,7 @@ public class Message {
         FileWriter fw = null;
         try{
             fw = new FileWriter(filename);
-            fw.write(sender + IO_LIM + text + IO_LIM + Boolean.toString(isPublic) + IO_LIM);
+            fw.write(sender + IO_LIM + text + IO_LIM + kind.toString() + IO_LIM);
         }
         catch(IOException ex){}
         finally{
@@ -130,7 +130,7 @@ public class Message {
                 scan.useDelimiter(IO_LIM);
                 sender = scan.next();
                 text = scan.next();
-                isPublic = Boolean.parseBoolean(scan.next());
+                kind = MessageKind.valueOf(scan.next());
             } catch (FileNotFoundException ex){}           
         }
     }
@@ -141,6 +141,16 @@ public class Message {
      */
     @Override
     public String toString(){
-        return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
+        String ret = "";
+        if(kind == MessageKind.PUBLIC)
+            ret = (sender + " dice: " + text);
+        else if(kind == MessageKind.PRIVATE)
+            ret = ("Mensaje privado de " + sender + ": " + text);
+        else if(kind == MessageKind.BEGIN)
+            ret = (sender + " ha iniciado sesión.");
+        else if(kind == MessageKind.END)
+            ret = (sender + " se ha desconectado.");
+        return ret;
+        //return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
     }
 }
