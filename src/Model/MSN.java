@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 package Model;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Random;
 
@@ -26,12 +27,12 @@ public class MSN {
     /**
      * Message cloud directory.
      */
-    private static final String MSGDIR = "_msnsys/_msgcloud/";
+    private static final String MSGDIR = "./_msnsys/_msgcloud/";
     
     /**
      * Private message cloud directory.
      */
-    private static final String PRIVDIR = "_msnsys/_pmcloud/";
+    private static final String PRIVDIR = "./_msnsys/_pmcloud/";
     
     /**
      * Maximum period of inactivity available before removing a user.
@@ -95,7 +96,7 @@ public class MSN {
         this.my_user = user;
         user_list = new User[MAX_USERS];
         for(int i = 0; i < MAX_USERS; i++){
-            user_list[i] = new User();
+            user_list[i] = new User(i);
         }
         Random r = new Random();
         current_channel = r.nextInt(MAX_CHANNELS);
@@ -159,6 +160,8 @@ public class MSN {
     public Message getPrivate(int channel){
         Message m = new Message();
         m.read(getMsgFile(my_user.getUid(),channel));
+        File f =new File(getMsgFile(my_user.getUid(),channel));
+        f.delete();
         return m;
     }
     

@@ -65,10 +65,11 @@ public class User {
     
     /**
      * Default constructor.
-     * Creates a disconnected user with an invalid state.
+     * Creates a disconnected user with an invalid state, just the id is set.
+     * @param uid User's id.
      */
-    public User(){
-        this.uid = -1;
+    public User(int uid){
+        this.uid = uid;
         this.name = "";
         this.state = UserState.OFF;
         this.current_time = null;
@@ -196,7 +197,8 @@ public class User {
      * Erases the corresponding user file.
      */
     public void erase(){
-        File f = new File(getUserFile(uid));
+        File f = new File("./"+getUserFile(uid));
+        f.setWritable(true);
         f.delete();
     }
     
@@ -256,7 +258,10 @@ public class User {
             } catch (FileNotFoundException | ParseException ex) {
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }           
+            }
+            finally{
+                scan.close();
+            }
         }
     }
     

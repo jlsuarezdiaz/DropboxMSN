@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -131,10 +133,23 @@ public class Message {
                 sender = scan.next();
                 text = scan.next();
                 kind = MessageKind.valueOf(scan.next());
-            } catch (FileNotFoundException ex){}           
+            } catch (FileNotFoundException ex){}
+            // For invalid message reading.
+            catch(NoSuchElementException ex){ scan.close(); f.delete();}
+            finally{
+                scan.close();
+            }
+            System.out.println("Leido OK " + filename);
         }
     }
     
+    /**
+     * Checks if a message is empty.
+     * @return 
+     */
+    public boolean isEmpty(){
+        return ("".equals(this.sender) || " ".equals(this.sender)) && ("".equals(this.text) || " ".equals(this.text));
+    }
     /**
      * Obtains a string with the message.
      * @return String with the message.
