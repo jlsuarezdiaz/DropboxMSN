@@ -6,6 +6,7 @@
 package Test;
 
 import Model.Message;
+import Model.MessageKind;
 import Model.User;
 import Model.UserOverflowException;
 
@@ -16,9 +17,9 @@ import Model.UserOverflowException;
 public class test2 {
     
     public static void main(String[] args) throws UserOverflowException{
-        Message a = new Message("Pepe","Holaaaaaaa xd",true);
+        Message a = new Message("Pepe","Holaaaaaaa xd",MessageKind.PUBLIC);
         System.out.println(a.toString());
-        Message b = new Message("Pepa","Holas xddd",false);
+        Message b = new Message("Pepa","Holas xddd",MessageKind.PRIVATE);
         System.out.println(b.toString());
         a.write("a.msg");
         b.write("b.msg");
@@ -26,7 +27,10 @@ public class test2 {
         b.read("a.msg");
         System.out.println(a.toString());
         System.out.println(b.toString());
-        
+        Message c = new Message("Antonio","adsffg",MessageKind.BEGIN);
+        System.out.println(c.toString());
+        c = new Message("Antonio","adsffg",MessageKind.END);
+        System.out.println(c.toString());
     }
 }
     
