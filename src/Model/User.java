@@ -256,12 +256,18 @@ public class User {
                 state = UserState.valueOf(scan.next());
                 current_time = df.parse(scan.next());
             } catch (FileNotFoundException | ParseException ex) {
+                name = "";
+                state = UserState.OFF;        
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             }
             finally{
                 if(scan != null) scan.close();
             }
+        }
+        else{
+            name = "";
+            state = UserState.OFF;
         }
     }
     
