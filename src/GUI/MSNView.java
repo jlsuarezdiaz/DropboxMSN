@@ -12,17 +12,12 @@ import Model.UserOverflowException;
 import Model.UserState;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -122,16 +117,19 @@ public class MSNView extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-        
+                
         timerReader = new Timer(100, taskReader);
         timerPrivateReader = new Timer(100,taskPrivateReader);
-        timerUserUpdater = new Timer(300000,taskUserUpdater);
-        timerListUserUpdater = new Timer(5000,taskListUserUpdater);
+        timerUserUpdater = new Timer(200000,taskUserUpdater);
+        timerListUserUpdater = new Timer(3000,taskListUserUpdater);
         
     }
 
     public void showView(){
         this.setVisible(true);
+        TextMessage.grabFocus();
+        TextMessage.requestFocusInWindow();
+        TextMessage.requestFocus();
     }
     
     public void setMSN(MSNController msn){
@@ -163,10 +161,8 @@ public class MSNView extends javax.swing.JFrame {
         MessagePanel.add(msgview);
         MessagePanel.repaint();
         MessagePanel.revalidate();
-        MessageScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-            public void adjustmentValueChanged(AdjustmentEvent e) {  
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-            }
+        MessageScroll.getVerticalScrollBar().addAdjustmentListener((AdjustmentEvent e) -> {
+            e.getAdjustable().setValue(e.getAdjustable().getMaximum());
         });
     }
     
@@ -265,11 +261,13 @@ public class MSNView extends javax.swing.JFrame {
         UserScroll.setPreferredSize(new java.awt.Dimension(204, 1000000));
 
         UsersPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        UsersPanel.setNextFocusableComponent(TextMessage);
         UsersPanel.setLayout(new javax.swing.BoxLayout(UsersPanel, javax.swing.BoxLayout.PAGE_AXIS));
         UsersPanel.setLayout(new javax.swing.BoxLayout(UsersPanel, javax.swing.BoxLayout.PAGE_AXIS));
         UserScroll.setViewportView(UsersPanel);
 
         ComboUserState.setModel(new DefaultComboBoxModel<>(UserState.values()));
+        ComboUserState.setNextFocusableComponent(TextMessage);
         ComboUserState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboUserStateActionPerformed(evt);
@@ -281,6 +279,7 @@ public class MSNView extends javax.swing.JFrame {
         BtSend.setForeground(new java.awt.Color(255, 255, 255));
         BtSend.setText("SEND");
         BtSend.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtSend.setNextFocusableComponent(TextMessage);
         BtSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtSendActionPerformed(evt);
@@ -294,6 +293,7 @@ public class MSNView extends javax.swing.JFrame {
         BtPrivate.setToolTipText("Active este botón para iniciar la mensajería privada.");
         BtPrivate.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtPrivate.setContentAreaFilled(false);
+        BtPrivate.setNextFocusableComponent(TextMessage);
         BtPrivate.setOpaque(true);
         BtPrivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -319,6 +319,7 @@ public class MSNView extends javax.swing.JFrame {
         TextMessage.setColumns(20);
         TextMessage.setLineWrap(true);
         TextMessage.setRows(5);
+        TextMessage.setNextFocusableComponent(TextMessage);
         TextMessage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TextMessageKeyReleased(evt);
@@ -345,7 +346,6 @@ public class MSNView extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
