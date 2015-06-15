@@ -171,7 +171,8 @@ public class MSN {
     public void checkUsers(){
         for(User u : user_list){
             u.read();
-            if(u.getDate() != null && getTimeDifference(my_user.getDate(),u.getDate()) > MAX_INACTIVE_PERIOD){
+            if(u.getDate() != null && (getTimeDifference(my_user.getDate(),u.getDate()) > MAX_INACTIVE_PERIOD 
+                    || u.getState() == UserState.OFF)){
                 u.erase();
             }
         }
