@@ -24,11 +24,17 @@ public class MSNIntro extends javax.swing.JDialog {
     User user;
     
     /**
+     * Checks if the name is ok.
+     */
+    boolean validName;
+    
+    /**
      * Creates new form MSNIntro
      */
     public MSNIntro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setValidName(false);
         this.addWindowListener (new WindowAdapter() {
             @Override
             public void windowClosing (WindowEvent e) {
@@ -88,6 +94,17 @@ public class MSNIntro extends javax.swing.JDialog {
         labelCopyright.setForeground(new java.awt.Color(0, 0, 255));
         labelCopyright.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCopyright.setText("© 2015");
+
+        txtUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserNameActionPerformed(evt);
+            }
+        });
+        txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyReleased(evt);
+            }
+        });
 
         labelAskName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAskName.setText("Introduzca un nombre para iniciar sesión:");
@@ -159,7 +176,12 @@ public class MSNIntro extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
+    private void setValidName(boolean valid){
+        validName = valid;
+        btStart.setEnabled(validName);
+    }
+    
+    private void performReadName(){
         try {
             user = new User(this.txtUserName.getText());
             this.dispose();
@@ -167,7 +189,18 @@ public class MSNIntro extends javax.swing.JDialog {
             MSNView.showUserOverflowMsg(ex);
             System.exit(0);
         }
+    }
+    private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
+        if(validName) performReadName();
     }//GEN-LAST:event_btStartActionPerformed
+
+    private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
+        if(validName) performReadName();
+    }//GEN-LAST:event_txtUserNameActionPerformed
+
+    private void txtUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyReleased
+        setValidName(!txtUserName.getText().trim().isEmpty());
+    }//GEN-LAST:event_txtUserNameKeyReleased
 
     public User getUser(){
         this.setVisible(true);

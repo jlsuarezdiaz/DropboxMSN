@@ -164,6 +164,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtUserName">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUserNameActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtUserNameKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelAskName">
       <Properties>

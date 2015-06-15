@@ -51,6 +51,40 @@ public class MSNView extends javax.swing.JFrame {
     Timer timerListUserUpdater;
     
     /**
+     * Checks if text is valid to be sent.
+     */
+    boolean validText;
+    
+    /**
+     * Set valid text and enables components if necessary.
+     * @param valid Boolean to set valid text.
+     */
+    private void setValidText(boolean valid){
+        this.validText = valid;
+        BtSend.setEnabled(validText);
+    }
+    
+    /**
+     * Action of sending a message.
+     */
+    private void performSend(){
+        if(BtPrivate.isSelected()){
+            ArrayList <User> dest = getSelectedUsers();
+            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PRIVATE);
+            for(User u : dest){
+                msn_ctrl.send(msg,u);
+                pushMessage(new Message("","Enviaste a " + u.getName()+ ": " + TextMessage.getText(),MessageKind.JUSTTEXT));
+            }
+            
+        }
+        else{
+            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PUBLIC);
+            msn_ctrl.send(msg);
+        }
+        TextMessage.setText("");
+        setValidText(false);
+    }
+    /**
      * Creates new form MSNView
      */
     public MSNView() {
@@ -88,7 +122,8 @@ public class MSNView extends javax.swing.JFrame {
         timerReader = new Timer(100, taskReader);
         timerPrivateReader = new Timer(100,taskPrivateReader);
         timerUserUpdater = new Timer(300000,taskUserUpdater);
-        timerListUserUpdater = new Timer(5000,taskListUserUpdater);      
+        timerListUserUpdater = new Timer(5000,taskListUserUpdater);
+        
     }
 
     public void showView(){
@@ -109,7 +144,7 @@ public class MSNView extends javax.swing.JFrame {
     
     public void enableMSNComponents(boolean enabled){
         this.BtPrivate.setEnabled(enabled);
-        this.BtSend.setEnabled(enabled);
+        setValidText(enabled && !TextMessage.getText().trim().isEmpty());
         //this.ComboUserState.setEnabled(enabled);
         this.MessagePanel.setEnabled(enabled);
         this.MyUserPanel.setEnabled(enabled);
@@ -187,12 +222,12 @@ public class MSNView extends javax.swing.JFrame {
         UserScroll = new javax.swing.JScrollPane();
         UsersPanel = new javax.swing.JPanel();
         ComboUserState = new javax.swing.JComboBox();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TextMessage = new javax.swing.JTextArea();
         BtSend = new javax.swing.JButton();
         BtPrivate = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         BtExit = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextMessage = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dropbox MSN");
@@ -228,10 +263,6 @@ public class MSNView extends javax.swing.JFrame {
                 ComboUserStateActionPerformed(evt);
             }
         });
-
-        TextMessage.setColumns(20);
-        TextMessage.setRows(5);
-        jScrollPane3.setViewportView(TextMessage);
 
         BtSend.setBackground(new java.awt.Color(0, 204, 51));
         BtSend.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -271,6 +302,15 @@ public class MSNView extends javax.swing.JFrame {
             }
         });
 
+        TextMessage.setColumns(20);
+        TextMessage.setRows(5);
+        TextMessage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TextMessageKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TextMessage);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -283,8 +323,8 @@ public class MSNView extends javax.swing.JFrame {
                             .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(MessageScroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,25 +352,23 @@ public class MSNView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(UserScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(MessageScroll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BtPrivate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(BtExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -350,20 +388,7 @@ public class MSNView extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboUserStateActionPerformed
 
     private void BtSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSendActionPerformed
-        if(BtPrivate.isSelected()){
-            ArrayList <User> dest = getSelectedUsers();
-            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PRIVATE);
-            for(User u : dest){
-                msn_ctrl.send(msg,u);
-                pushMessage(new Message("","Enviaste a " + u.getName()+ ": " + TextMessage.getText(),MessageKind.JUSTTEXT));
-            }
-            
-        }
-        else{
-            Message msg = new Message(msn_ctrl.getUser().getName(),TextMessage.getText(),MessageKind.PUBLIC);
-            msn_ctrl.send(msg);
-        }
-        TextMessage.setText("");
+        if(validText) performSend();
     }//GEN-LAST:event_BtSendActionPerformed
 
     private void BtExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExitActionPerformed
@@ -379,11 +404,14 @@ public class MSNView extends javax.swing.JFrame {
         }else{
             BtPrivate.setToolTipText("Active este botón para iniciar la mensajería privada.");
             BtPrivate.setBackground(new Color(0xCC00CC));
-        }
-            
-            
+        }       
     }//GEN-LAST:event_BtPrivateActionPerformed
 
+    private void TextMessageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyReleased
+        setValidText(!TextMessage.getText().trim().isEmpty());
+    }//GEN-LAST:event_TextMessageKeyReleased
+
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,7 +427,7 @@ public class MSNView extends javax.swing.JFrame {
     private javax.swing.JPanel UsersPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
