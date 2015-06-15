@@ -121,6 +121,7 @@ public class UserView extends javax.swing.JPanel {
         labelDate = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(153, 153, 153));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setMaximumSize(new java.awt.Dimension(139, 89));
         setMinimumSize(new java.awt.Dimension(139, 89));
         addMouseListener(new java.awt.event.MouseAdapter() {

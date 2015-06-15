@@ -6,6 +6,8 @@
 package GUI;
 
 import Model.Message;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -34,6 +36,7 @@ public class MessageView extends javax.swing.JPanel {
         this.labelText.setText(messageModel.toString());
         repaint();
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,36 +46,38 @@ public class MessageView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelText = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        labelText = new javax.swing.JEditorPane();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(700, 32767));
-        setMinimumSize(new java.awt.Dimension(700, 0));
-        setPreferredSize(new java.awt.Dimension(700, 50));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setMaximumSize(new java.awt.Dimension(675, 75));
+        setMinimumSize(new java.awt.Dimension(675, 75));
+        setPreferredSize(new java.awt.Dimension(675, 75));
 
-        labelText.setText("Juan dice: Hola, ¿qué tal?");
-        labelText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        labelText.setEditable(false);
+        labelText.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        labelText.setMaximumSize(new java.awt.Dimension(675, 2147483647));
+        labelText.setMinimumSize(new java.awt.Dimension(675, 14));
+        jScrollPane2.setViewportView(labelText);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelText, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelText, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel labelText;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JEditorPane labelText;
     // End of variables declaration//GEN-END:variables
 }
