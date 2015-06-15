@@ -87,7 +87,8 @@ public class MSNController {
     }
     
     public void setState(UserState state) throws UserOverflowException{
-        if(getUser().getState() != state){
+        if(state == UserState.OFF && msn.getUser().getState() != UserState.OFF
+         ||state != UserState.OFF && msn.getUser().getState() == UserState.OFF){
             if(state == UserState.OFF) stop();
             else run();
         }

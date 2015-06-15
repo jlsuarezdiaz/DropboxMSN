@@ -66,10 +66,21 @@ public class UserView extends javax.swing.JPanel {
     }
     
     /**
+     * Selects or unselects the view.
+     * @param selection Boolean indicating selection or not.
+     */
+    public void select(boolean selection){
+        isSelected = selection;
+        setBackground();
+        repaint();
+    }
+    
+    /**
      * Set the view with a user.
      * @param u User.
      */
     public void setUser(User u){
+        isSelected = false;
         this.userModel = u;
         this.labelName.setText(u.getName());
         this.labelState.setText(u.getState().toString());
@@ -157,9 +168,7 @@ public class UserView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        isSelected = !isSelected;
-        setBackground();
-        repaint();
+        select(!isSelected);
     }//GEN-LAST:event_formMouseClicked
 
 

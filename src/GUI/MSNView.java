@@ -72,8 +72,8 @@ public class MSNView extends javax.swing.JFrame {
         };
         
         this.taskListUserUpdater = (ActionEvent evt) -> {
-            fillUserPanel(msn_ctrl.getUserList());
-            //updateUserPanel();
+            //fillUserPanel(msn_ctrl.getUserList());
+            updateUserPanel(msn_ctrl.getUserList());
         };
         
         initComponents();
@@ -148,9 +148,18 @@ public class MSNView extends javax.swing.JFrame {
         UsersPanel.revalidate();
     }
     
-    public void updateUserPanel(){
+    public void updateUserPanel(User[] user_list){
+        boolean selection_now;
+        //UserView view;
         for(int i = 1; i < User.getMaxUsers(); i++){
-            ((UserView)UsersPanel.getComponent(i)).setUser(msn_ctrl.getUserList()[i]);
+            selection_now = ((UserView)UsersPanel.getComponent(i)).isSelected();
+            ((UserView)UsersPanel.getComponent(i)).setUser(user_list[i]);
+            if(user_list[i].validState())
+                ((UserView)UsersPanel.getComponent(i)).select(selection_now);
+        //    view = ((UserView)UsersPanel.getComponent(i));
+        //    selection_now = view.isSelected();
+        //    view.setUser(user_list[i]);
+        //   view.select(selection_now);   
         }
         UsersPanel.repaint();
     }
