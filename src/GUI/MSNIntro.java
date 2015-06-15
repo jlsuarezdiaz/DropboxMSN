@@ -67,7 +67,6 @@ public class MSNIntro extends javax.swing.JDialog {
         setAlwaysOnTop(true);
         setMaximumSize(new java.awt.Dimension(350, 500));
         setMinimumSize(new java.awt.Dimension(350, 500));
-        setPreferredSize(new java.awt.Dimension(350, 500));
 
         labelWelcome.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -125,7 +124,7 @@ public class MSNIntro extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(labelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
