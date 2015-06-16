@@ -29,3 +29,15 @@ public class Main {
         msn_ctrl.run();
     }
 }
+
+/**
+ * VERSIONS INFO:
+ * 
+ * Version 1.0: First program. Messenger basic functions (send, write, users, user states, private messaging)
+ * and graphic interface.
+ * 
+ * Version 1.1:
+ * - [!!!] Added sounds when receiving a message.
+ * - Solved scroll problem.
+ * - Solved own-user update missing.
+ */
