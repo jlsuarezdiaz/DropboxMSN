@@ -18,8 +18,12 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.Timer;
 
 /**
@@ -156,15 +160,25 @@ public class MSNView extends javax.swing.JFrame {
     }
     
     public void pushMessage(Message msg){
+        boolean isOnBottom = MessageScroll.getVerticalScrollBar().getValue() == 
+                MessageScroll.getVerticalScrollBar().getMaximum()-MessageScroll.getVerticalScrollBar().getVisibleAmount();
         MessageView msgview = new MessageView();
         msgview.setMessage(msg);
         msgview.setVisible(true);
         MessagePanel.add(msgview);
         MessagePanel.repaint();
         MessagePanel.revalidate();
-        MessageScroll.getVerticalScrollBar().addAdjustmentListener((AdjustmentEvent e) -> {
-            e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-        });
+        
+        MessageScroll.validate();
+        
+        if(isOnBottom){
+            JScrollBar vertical = MessageScroll.getVerticalScrollBar();
+            vertical.setValue( vertical.getMaximum() );
+        }
+        
+        //MessageScroll.getVerticalScrollBar().addAdjustmentListener((AdjustmentEvent e) -> {
+        //    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+        //});
     }
     
     public ArrayList<User> getSelectedUsers(){
@@ -211,6 +225,21 @@ public class MSNView extends javax.swing.JFrame {
             "\n[Error: " + ex.getMessage() + "]\n",
             "User Overflow",JOptionPane.ERROR_MESSAGE);
     }
+    
+    public void messageSound(){
+        new Thread(() -> {
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                        (getClass().getResource("/GUI/MSNsound.wav")));
+                clip.open(inputStream);
+                clip.start();
+            } catch (Exception e) {
+            //    System.err.println(e.getMessage());
+            }
+        }).start();
+    }
+
         
     /**
      * This method is called from within the constructor to initialize the form.

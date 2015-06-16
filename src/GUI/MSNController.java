@@ -73,6 +73,7 @@ public class MSNController {
             if(msg != null && !msg.isEmpty() && !msg.equals(read_buffers[i])){
                 read_buffers[i] = msg;
                 view.pushMessage(msg);
+                view.messageSound();
             }
         }
     }
@@ -82,6 +83,7 @@ public class MSNController {
             Message msg = msn.getPrivate(i);
             if(msg != null && !msg.isEmpty()){
                 view.pushMessage(msg);
+                view.messageSound();
             }
         }
     }

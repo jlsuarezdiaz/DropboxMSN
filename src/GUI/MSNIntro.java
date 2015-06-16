@@ -83,7 +83,7 @@ public class MSNIntro extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("v1.0");
+        jLabel2.setText("v1.1");
 
         labelEdition.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         labelEdition.setForeground(new java.awt.Color(0, 0, 255));
