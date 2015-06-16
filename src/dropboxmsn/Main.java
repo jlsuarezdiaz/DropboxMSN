@@ -40,4 +40,6 @@ public class Main {
  * - [!!!] Added sounds when receiving a message.
  * - Solved scroll problem.
  * - Solved own-user update missing.
+ * - Improved user's name adjust design.
+ * 
  */
