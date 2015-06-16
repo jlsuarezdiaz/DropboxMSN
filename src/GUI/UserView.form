@@ -35,15 +35,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelName" max="32767" attributes="0"/>
-                  <Component id="labelState" alignment="0" max="32767" attributes="0"/>
-                  <Component id="labelDate" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="labelState" alignment="0" max="32767" attributes="0"/>
+          <Component id="labelDate" alignment="0" max="32767" attributes="0"/>
+          <Component id="labelName" alignment="0" pref="145" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

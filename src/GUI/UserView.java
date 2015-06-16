@@ -8,6 +8,7 @@ package GUI;
 import Model.User;
 import Model.UserState;
 import java.awt.Color;
+import java.awt.Font;
 
 /**
  *
@@ -27,6 +28,24 @@ public class UserView extends javax.swing.JPanel {
         this.labelName.setForeground(c);
         this.labelState.setForeground(c);
         this.labelDate.setForeground(c);
+    }
+    
+    private void setNameFont(){
+        // Compute the font size needed for the user name.
+        String name = userModel.getName();
+        Font labelFont = labelName.getFont();
+        
+        int stringWidth = labelName.getFontMetrics(labelFont).stringWidth(name);
+        double componentWidth = 120;
+
+        // If the name is larger than the label width then the font size is reduced.
+        if (stringWidth > componentWidth){
+            // Find out how much the font can grow in width.
+            double widthRatio = componentWidth / (double) stringWidth;
+            int newFontSize = (int)(labelFont.getSize() * widthRatio);
+            // Set the label's font size to the newly determined size.
+            labelName.setFont(new Font(labelFont.getName(), Font.BOLD , newFontSize));
+        }
     }
     
     private void setBackground(){
@@ -82,6 +101,7 @@ public class UserView extends javax.swing.JPanel {
     public void setUser(User u){
         isSelected = false;
         this.userModel = u;
+        setNameFont();
         this.labelName.setText(u.getName());
         this.labelState.setText(u.getState().toString());
         this.labelDate.setText((u.getDate() == null)?"":User.getDateFormat().format(u.getDate()));
@@ -147,13 +167,9 @@ public class UserView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(labelState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelName, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
