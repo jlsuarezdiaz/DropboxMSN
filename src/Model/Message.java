@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -29,9 +32,19 @@ public class Message {
     private String text;
     
     /**
-     * Indicates whether message is public.
+     * Indicates de message modality.
      */
     private MessageKind kind;
+    
+    /**
+     * Message date.
+     */
+    private Date date;
+    
+    /**
+     * Date Format.
+     */
+    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
     /**
      * Input/Output delimiter.
@@ -48,6 +61,7 @@ public class Message {
         this.sender = "".equals(sender)?" ":sender;
         this.text = "".equals(text)?" ":text;
         this.kind = kind;
+        this.date = new Date();
     }
     
     /**
@@ -100,6 +114,21 @@ public class Message {
     }
     
     /**
+     * 
+     * @return date 
+     */
+    public Date getDate(){
+        return date;
+    }
+    
+    /**
+     * 
+     * @return Date format. 
+     */
+    public static DateFormat getDateFormat(){
+        return df;
+    }
+    /**
      * Writes the message in a file.
      * @param filename File's name.
      */
@@ -107,7 +136,7 @@ public class Message {
         FileWriter fw = null;
         try{
             fw = new FileWriter(filename);
-            fw.write(sender + IO_LIM + text + IO_LIM + kind.toString() + IO_LIM);
+            fw.write(sender + IO_LIM + text + IO_LIM + kind.toString() + IO_LIM + df.format(date) + IO_LIM);
         }
         catch(IOException ex){}
         finally{
@@ -133,9 +162,10 @@ public class Message {
                 sender = scan.next();
                 text = scan.next();
                 kind = MessageKind.valueOf(scan.next());
+                date = df.parse(scan.next());
             } catch (FileNotFoundException ex){}
             // For invalid message reading.
-            catch(NoSuchElementException ex){ scan.close(); f.delete();}
+            catch(NoSuchElementException | ParseException ex){ scan.close(); f.delete();}
             finally{
                 if(scan != null) scan.close();
             }
@@ -172,6 +202,14 @@ public class Message {
         //return ((isPublic)?(sender + " dice: "):("Mensaje privado de " + sender + ": ")) + text;
     }
     
+    /**
+     * Obtains a string with all the message information.
+     * @return String with message info.
+     */
+    public String toStringXL(){
+        return "[" + getDate() + "] " + toString();
+    }
+    
     @Override
     public boolean equals(Object obj){
         if(obj == null)
@@ -182,6 +220,7 @@ public class Message {
             return false;
         
         Message msg = (Message) obj;
-        return this.sender.equals(msg.getSender()) && this.text.equals(msg.getText()) && this.kind.equals(msg.getKind());
+        return this.sender.equals(msg.getSender()) && this.text.equals(msg.getText()) 
+                && this.kind.equals(msg.getKind()) && this.date.equals(msg.getDate());
     }
 }
