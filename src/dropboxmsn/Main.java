@@ -44,4 +44,5 @@ public class Main {
  * 
  * Version 1.2:
  * - Improved users management
+ * - Allowed message selection (no further use at the moment).
  */

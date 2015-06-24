@@ -21,6 +21,38 @@ public class MessageView extends javax.swing.JPanel {
     private Message messageModel;
     
     /**
+     * Selected checker.
+     */
+    boolean isSelected;
+    
+    
+    private void setBackground(){
+        if(isSelected){
+            this.setBackground(new Color(0x00FFFF));
+        }
+        else{
+            this.setBackground(new Color(0xF0F0F0));
+        }
+    }
+    
+    /**
+     * @return true if and only if the user is selected.
+     */
+    public boolean isSelected(){
+        return isSelected;
+    }
+    
+    /**
+     * Selects or unselects the view.
+     * @param selection Boolean indicating selection or not.
+     */
+    public void select(boolean selection){
+        isSelected = selection;
+        setBackground();
+        repaint();
+    }
+    
+    /**
      * Creates new form MessageView
      */
     public MessageView() {
@@ -32,9 +64,14 @@ public class MessageView extends javax.swing.JPanel {
      * @param m Message to set.
      */
     public void setMessage(Message m){
+        select(false);
         this.messageModel = m;
         this.labelText.setText(messageModel.toString());
         repaint();
+    }
+    
+    public Message getMessage(){
+        return messageModel;
     }
     
     /**
@@ -54,6 +91,11 @@ public class MessageView extends javax.swing.JPanel {
         setMaximumSize(new java.awt.Dimension(675, 75));
         setMinimumSize(new java.awt.Dimension(675, 75));
         setPreferredSize(new java.awt.Dimension(675, 75));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -67,13 +109,20 @@ public class MessageView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        select(!isSelected);
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

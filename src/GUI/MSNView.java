@@ -192,6 +192,17 @@ public class MSNView extends javax.swing.JFrame {
        return users;
     }
     
+    public ArrayList<Message> getSelectedMessages(){
+       MessageView mv;
+       ArrayList<Message> msgs = new ArrayList();
+       for(Component c : MessagePanel.getComponents()){
+           mv = (MessageView) c;
+           if(mv.isSelected())
+               msgs.add(mv.getMessage());
+       }
+       return msgs;
+    }
+    
     public void fillUserPanel(User[] user_list){
         UsersPanel.removeAll();
         for(User u: user_list){
