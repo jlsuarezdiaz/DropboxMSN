@@ -42,7 +42,8 @@ public class Main {
  * - Solved own-user update missing.
  * - Improved user's name adjust design.
  * 
- * Version 1.2:
+ * Version 1.2 (24/6/2015):
  * - Improved users management
  * - Allowed message selection (no further use at the moment).
+ * - Added message dates.
  */
