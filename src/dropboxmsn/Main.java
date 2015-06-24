@@ -33,13 +33,15 @@ public class Main {
 /**
  * VERSIONS INFO:
  * 
- * Version 1.0: First program. Messenger basic functions (send, write, users, user states, private messaging)
+ * Version 1.0 (15/6/2015): First program. Messenger basic functions (send, write, users, user states, private messaging)
  * and graphic interface.
  * 
- * Version 1.1:
+ * Version 1.1 (17/6/2015):
  * - [!!!] Added sounds when receiving a message.
  * - Solved scroll problem.
  * - Solved own-user update missing.
  * - Improved user's name adjust design.
  * 
+ * Version 1.2:
+ * - Improved users management
  */

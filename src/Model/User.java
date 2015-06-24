@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +64,12 @@ public class User {
      * Input/Output delimiter.
      */
     private static final String IO_LIM = "\0";
+    
+    /**
+     * Randomizer.
+     */
+    private static final Random rand = new Random();
+    
     
     /**
      * Default constructor.
@@ -155,23 +163,35 @@ public class User {
      * @throws Model.UserOverflowException
      */
     public int getNewId() throws UserOverflowException{
-        for(int i = 1; i < MAX_USERS; i++){
-            File f = new File(getUserFile(i));
-            if(!f.exists()){
-                return i;
+        int rnd = rand.nextInt(MAX_USERS);
+        int fnum;
+        for(int i = 0; i < MAX_USERS; i++){
+            fnum = (i+rnd)%MAX_USERS;
+            File f = new File(getUserFile(fnum));
+            if(!f.exists() && fnum != 0){
+                return fnum;
             }
         }
         throw new UserOverflowException("No users space available.");
     }
     
     /**
-     * Updates user time.
+     * Updates user.
      * @throws Model.UserOverflowException
      */
     public void update() throws UserOverflowException{
+        update(false);
+    }
+    
+    /**
+     * Updates user.
+     * @param newid If it is true, user id is also updated.
+     * @throws UserOverflowException 
+     */
+    public void update(boolean newid) throws UserOverflowException{
         erase();
         if(state != UserState.OFF){
-            uid = getNewId();
+            if(newid) uid = getNewId();
             current_time = new Date();
         }
         write();
@@ -255,7 +275,7 @@ public class User {
                 name = scan.next();
                 state = UserState.valueOf(scan.next());
                 current_time = df.parse(scan.next());
-            } catch (FileNotFoundException | ParseException ex) {
+            } catch (FileNotFoundException | ParseException | NoSuchElementException ex) {
                 name = "";
                 state = UserState.OFF;        
              //   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
