@@ -46,4 +46,8 @@ public class Main {
  * - Improved users management
  * - Allowed message selection (no further use at the moment).
  * - Added message dates.
+ * 
+ * Version 1.3 (5/7/2015):
+ * - Added colors to user state menu in main view.
+ * - Added sending after enter pressed mode.
  */
