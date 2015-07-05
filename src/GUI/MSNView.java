@@ -10,11 +10,13 @@ import Model.MessageKind;
 import Model.User;
 import Model.UserOverflowException;
 import Model.UserState;
+import Swing.ColorComboBox;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -22,9 +24,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
  *
@@ -37,26 +42,33 @@ public class MSNView extends javax.swing.JFrame {
      */
     private MSNController msn_ctrl;
    
-    ActionListener taskReader;
+    private final ActionListener taskReader;
     
-    ActionListener taskPrivateReader;
+    private final ActionListener taskPrivateReader;
     
-    ActionListener taskUserUpdater;
+    private final ActionListener taskUserUpdater;
     
-    ActionListener taskListUserUpdater;
+    private final ActionListener taskListUserUpdater;
     
-    Timer timerReader;
+    private final Timer timerReader;
     
-    Timer timerPrivateReader;
+    private final Timer timerPrivateReader;
     
-    Timer timerUserUpdater;
+    private final Timer timerUserUpdater;
     
-    Timer timerListUserUpdater;
+    private final Timer timerListUserUpdater;
+    
+    private static final Color[] state_colors = {Color.GREEN,Color.ORANGE,Color.RED,Color.BLACK};
+    private static final String[] state_names = {"ONLINE","ABSENT","BUSY","OFF"};
+    
     
     /**
      * Checks if text is valid to be sent.
      */
     boolean validText;
+    
+    // ---------- SETTINGS ATTRIBUTES ---------- //
+    private boolean enterSendOption;
     
     /**
      * Set valid text and enables components if necessary.
@@ -85,8 +97,22 @@ public class MSNView extends javax.swing.JFrame {
             msn_ctrl.send(msg);
         }
         TextMessage.setText("");
+        TextMessage.setCaretPosition(0);
         setValidText(false);
     }
+    
+    /**
+     * Updates the color of the user state combo box
+     */
+    private void updateStateBoxColor(){
+            ComboUserState.setForeground(state_colors[ComboUserState.getSelectedIndex()]);
+            Object child = ComboUserState.getAccessibleContext().getAccessibleChild(0);
+            BasicComboPopup popup = (BasicComboPopup)child;
+            JList list = popup.getList();
+            list.setSelectionForeground(state_colors[ComboUserState.getSelectedIndex()]);
+            list.setSelectionBackground(Color.WHITE);
+    }
+    
     /**
      * Creates new form MSNView
      */
@@ -115,6 +141,14 @@ public class MSNView extends javax.swing.JFrame {
         };
         
         initComponents();
+        
+
+        ColorComboBox ColorBoxUserState = new ColorComboBox(ComboUserState);
+        ColorBoxUserState.setColors(state_colors);
+        ColorBoxUserState.setStrings(state_names);
+        ComboUserState.setRenderer(ColorBoxUserState);
+        updateStateBoxColor();
+        
         this.addWindowListener (new WindowAdapter() {
             @Override
             public void windowClosing (WindowEvent e) {
@@ -127,6 +161,9 @@ public class MSNView extends javax.swing.JFrame {
         timerPrivateReader = new Timer(100,taskPrivateReader);
         timerUserUpdater = new Timer(200000,taskUserUpdater);
         timerListUserUpdater = new Timer(3000,taskListUserUpdater);
+        
+        //--- SETTINGS INITIALIZE ---//
+        enterSendOption = true;
         
     }
 
@@ -362,6 +399,9 @@ public class MSNView extends javax.swing.JFrame {
         TextMessage.setRows(5);
         TextMessage.setNextFocusableComponent(TextMessage);
         TextMessage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TextMessageKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TextMessageKeyReleased(evt);
             }
@@ -439,6 +479,9 @@ public class MSNView extends javax.swing.JFrame {
 
     private void ComboUserStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboUserStateActionPerformed
         try {
+            updateStateBoxColor();
+            /////////////////////////////////////////////
+            
             msn_ctrl.setState((UserState) ComboUserState.getSelectedItem());
             MyUserPanel.setUser(msn_ctrl.getUser());
         } catch (UserOverflowException ex) {
@@ -468,7 +511,14 @@ public class MSNView extends javax.swing.JFrame {
 
     private void TextMessageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyReleased
         setValidText(!TextMessage.getText().trim().isEmpty());
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption && validText){
+            performSend();
+        }
     }//GEN-LAST:event_TextMessageKeyReleased
+
+    private void TextMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyPressed
+
+    }//GEN-LAST:event_TextMessageKeyPressed
 
     
 
