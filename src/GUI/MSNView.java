@@ -77,6 +77,8 @@ public class MSNView extends javax.swing.JFrame {
     
     private String clipboard;
     
+    private boolean sound;
+    
     
     /**
      * Set valid text and enables components if necessary.
@@ -189,6 +191,8 @@ public class MSNView extends javax.swing.JFrame {
         //--- SETTINGS INITIALIZE ---//
         enterSendOption = true;
         
+        sound = true;
+        
         clipboard = null;
         
         enableCopyButtons();
@@ -279,6 +283,12 @@ public class MSNView extends javax.swing.JFrame {
        return msgs;
     }
     
+    public void clearMessages(){
+        MessagePanel.removeAll();
+        MessagePanel.repaint();
+        MessagePanel.revalidate();
+    }
+    
     public void fillUserPanel(User[] user_list){
         UsersPanel.removeAll();
         for(User u: user_list){
@@ -314,19 +324,37 @@ public class MSNView extends javax.swing.JFrame {
     }
     
     public void messageSound(){
-        new Thread(() -> {
-            try {
-                Clip clip = AudioSystem.getClip();
-                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        (getClass().getResource("/Media/MSNsound.wav")));
-                clip.open(inputStream);
-                clip.start();
-            } catch (Exception e) {
-            //    System.err.println(e.getMessage());
-            }
-        }).start();
+        if(sound){
+            new Thread(() -> {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            (getClass().getResource("/Media/MSNsound.wav")));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception e) {
+                //    System.err.println(e.getMessage());
+                }
+            }).start();
+        }
     }
 
+    // ---------- SETTINGS ACCESSORS ---------- //
+    public boolean getEnterSendOption(){
+        return enterSendOption;
+    }
+    
+    public void setEnterSendOption(boolean b){
+        enterSendOption = b;
+    }
+    
+    public boolean getSound(){
+        return sound;
+    }
+    
+    public void setSound(boolean b){
+        sound = b;
+    }
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -461,6 +489,11 @@ public class MSNView extends javax.swing.JFrame {
         BtSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/settings_icon_xs.png"))); // NOI18N
         BtSettings.setToolTipText("Configuración (Settings)");
         BtSettings.setPreferredSize(new java.awt.Dimension(28, 28));
+        BtSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtSettingsActionPerformed(evt);
+            }
+        });
 
         BtCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/copy_icon.png"))); // NOI18N
         BtCopy.setToolTipText("Copiar (Copy)");
@@ -660,6 +693,11 @@ public class MSNView extends javax.swing.JFrame {
     private void MessagePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagePanelMouseClicked
         enableCopyButtons();
     }//GEN-LAST:event_MessagePanelMouseClicked
+
+    private void BtSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSettingsActionPerformed
+        SettingsView sv = new SettingsView(this,false);
+        sv.showView(this);
+    }//GEN-LAST:event_BtSettingsActionPerformed
 
     
 
