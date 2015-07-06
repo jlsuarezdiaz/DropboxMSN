@@ -24,6 +24,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -317,6 +319,15 @@ public class MSNView extends javax.swing.JFrame {
         UsersPanel.repaint();
     }
     
+    public void updateUserForced(){
+        try {
+            msn_ctrl.updateUser(true);
+            MyUserPanel.setUser(msn_ctrl.getUser());
+        } catch (UserOverflowException ex) {
+            MSNView.showUserOverflowMsg(ex);
+        }
+    }
+    
     public static void showUserOverflowMsg(UserOverflowException ex){
         JOptionPane.showMessageDialog(null, "Dropbox MSN está desbordado en estos instantes. Inténtelo más tarde." +
             "\n[Error: " + ex.getMessage() + "]\n",
@@ -488,6 +499,7 @@ public class MSNView extends javax.swing.JFrame {
 
         BtSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/settings_icon_xs.png"))); // NOI18N
         BtSettings.setToolTipText("Configuración (Settings)");
+        BtSettings.setNextFocusableComponent(TextMessage);
         BtSettings.setPreferredSize(new java.awt.Dimension(28, 28));
         BtSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -497,6 +509,7 @@ public class MSNView extends javax.swing.JFrame {
 
         BtCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/copy_icon.png"))); // NOI18N
         BtCopy.setToolTipText("Copiar (Copy)");
+        BtCopy.setNextFocusableComponent(TextMessage);
         BtCopy.setPreferredSize(new java.awt.Dimension(28, 28));
         BtCopy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -506,6 +519,7 @@ public class MSNView extends javax.swing.JFrame {
 
         BtPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/paste_icon.png"))); // NOI18N
         BtPaste.setToolTipText("Pegar (Paste)");
+        BtPaste.setNextFocusableComponent(TextMessage);
         BtPaste.setPreferredSize(new java.awt.Dimension(28, 28));
         BtPaste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -515,6 +529,7 @@ public class MSNView extends javax.swing.JFrame {
 
         BtRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/delete_icon.png"))); // NOI18N
         BtRemove.setToolTipText("Borrar (Remove)");
+        BtRemove.setNextFocusableComponent(TextMessage);
         BtRemove.setPreferredSize(new java.awt.Dimension(28, 28));
         BtRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

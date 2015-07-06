@@ -110,4 +110,8 @@ public class MSNController {
     public void updateUser() throws UserOverflowException{
         msn.getUser().update();
     }
+    
+    public void updateUser(boolean newid) throws UserOverflowException{
+        msn.getUser().update(newid);
+    }
 }

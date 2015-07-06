@@ -53,6 +53,8 @@ public class SettingsView extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtCheat = new javax.swing.JTextField();
         BtCheat = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        BtUpdateUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dropbox MSN (Settings)");
@@ -71,7 +73,7 @@ public class SettingsView extends javax.swing.JDialog {
         jLabel1.setText("<html> (Si la casilla está activada, los mensajes se enviarán al pulsar la tecla Intro). <html>");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Borrar lista de mensajes.");
+        jLabel2.setText("Borrar panel de mensajes.");
 
         BtClear.setText("Borrar");
         BtClear.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +103,16 @@ public class SettingsView extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel4.setText("<html>  Pulsa el siguiente botón si observas problemas a la hora de mostrar tu usuario a los demás: <html>");
+
+        BtUpdateUser.setText("Forzar actualización");
+        BtUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtUpdateUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,6 +120,7 @@ public class SettingsView extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +135,8 @@ public class SettingsView extends javax.swing.JDialog {
                                 .addComponent(txtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(BtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ChkSound))
+                            .addComponent(ChkSound)
+                            .addComponent(BtUpdateUser))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -144,7 +158,11 @@ public class SettingsView extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(BtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtUpdateUser)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
@@ -167,16 +185,22 @@ public class SettingsView extends javax.swing.JDialog {
         txtCheat.setText("");
     }//GEN-LAST:event_BtCheatActionPerformed
 
+    private void BtUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtUpdateUserActionPerformed
+        view.updateUserForced();
+    }//GEN-LAST:event_BtUpdateUserActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCheat;
     private javax.swing.JButton BtClear;
+    private javax.swing.JButton BtUpdateUser;
     private javax.swing.JCheckBox ChkEnterSend;
     private javax.swing.JCheckBox ChkSound;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtCheat;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,6 +31,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel4" pref="0" max="32767" attributes="0"/>
                   <Component id="jLabel1" pref="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -48,6 +49,7 @@
                               <Component id="BtCheat" min="-2" pref="51" max="-2" attributes="0"/>
                           </Group>
                           <Component id="ChkSound" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="BtUpdateUser" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -76,7 +78,11 @@
                   <Component id="BtCheat" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtCheat" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="109" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" pref="49" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="BtUpdateUser" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -106,7 +112,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Borrar lista de mensajes."/>
+        <Property name="text" type="java.lang.String" value="Borrar panel de mensajes."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="BtClear">
@@ -153,6 +159,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtCheatActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Calibri" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;  Pulsa el siguiente bot&#xf3;n si observas problemas a la hora de mostrar tu usuario a los dem&#xe1;s: &lt;html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtUpdateUser">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Forzar actualizaci&#xf3;n"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtUpdateUserActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
