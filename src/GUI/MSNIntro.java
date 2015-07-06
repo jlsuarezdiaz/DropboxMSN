@@ -69,6 +69,7 @@ public class MSNIntro extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Media/msn_ultimate1.png")));
         setMaximumSize(new java.awt.Dimension(350, 500));
         setMinimumSize(new java.awt.Dimension(350, 500));
+        setResizable(false);
 
         labelWelcome.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

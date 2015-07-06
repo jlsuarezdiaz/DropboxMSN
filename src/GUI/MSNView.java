@@ -321,6 +321,7 @@ public class MSNView extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Media/msn_ultimate1.png")));
         setMaximumSize(new java.awt.Dimension(945, 591));
         setMinimumSize(new java.awt.Dimension(945, 591));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
