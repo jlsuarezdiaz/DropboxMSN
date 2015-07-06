@@ -13,6 +13,8 @@ import Model.UserState;
 import Swing.ColorComboBox;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -24,6 +26,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -279,7 +282,7 @@ public class MSNView extends javax.swing.JFrame {
             try {
                 Clip clip = AudioSystem.getClip();
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        (getClass().getResource("/GUI/MSNsound.wav")));
+                        (getClass().getResource("/Media/MSNsound.wav")));
                 clip.open(inputStream);
                 clip.start();
             } catch (Exception e) {
@@ -315,6 +318,7 @@ public class MSNView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dropbox MSN");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Media/msn_ultimate1.png")));
         setMaximumSize(new java.awt.Dimension(945, 591));
         setMinimumSize(new java.awt.Dimension(945, 591));
 

@@ -7,6 +7,7 @@ package GUI;
 
 import Model.User;
 import Model.UserOverflowException;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
@@ -65,6 +66,7 @@ public class MSNIntro extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dropbox MSN");
         setAlwaysOnTop(true);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Media/msn_ultimate1.png")));
         setMaximumSize(new java.awt.Dimension(350, 500));
         setMinimumSize(new java.awt.Dimension(350, 500));
 
@@ -73,7 +75,7 @@ public class MSNIntro extends javax.swing.JDialog {
         labelWelcome.setText("BIENVENIDO A DROPBOX MSN");
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/msn_ultimate1.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/msn_ultimate1.png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         labelAuthor.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
