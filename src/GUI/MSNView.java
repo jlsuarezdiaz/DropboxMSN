@@ -73,6 +73,9 @@ public class MSNView extends javax.swing.JFrame {
     // ---------- SETTINGS ATTRIBUTES ---------- //
     private boolean enterSendOption;
     
+    private String clipboard;
+    
+    
     /**
      * Set valid text and enables components if necessary.
      * @param valid Boolean to set valid text.
@@ -114,6 +117,19 @@ public class MSNView extends javax.swing.JFrame {
             JList list = popup.getList();
             list.setSelectionForeground(state_colors[ComboUserState.getSelectedIndex()]);
             list.setSelectionBackground(Color.WHITE);
+    }
+    
+    private void enableCopyButtons(){
+        if(getSelectedMessages().isEmpty()){
+            BtCopy.setEnabled(false);
+            BtRemove.setEnabled(false);
+        }
+        else{
+            BtCopy.setEnabled(true);
+            BtRemove.setEnabled(true);
+        }
+        BtPaste.setEnabled(clipboard != null);
+        repaint();
     }
     
     /**
@@ -168,6 +184,9 @@ public class MSNView extends javax.swing.JFrame {
         //--- SETTINGS INITIALIZE ---//
         enterSendOption = true;
         
+        clipboard = null;
+        
+        enableCopyButtons();
     }
 
     public void showView(){
@@ -205,6 +224,13 @@ public class MSNView extends javax.swing.JFrame {
         MessageView msgview = new MessageView();
         msgview.setMessage(msg);
         msgview.setVisible(true);
+        msgview.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MessagePanelMouseClicked(evt);
+            }
+        });
+        
         MessagePanel.add(msgview);
         MessagePanel.repaint();
         MessagePanel.revalidate();
@@ -236,9 +262,14 @@ public class MSNView extends javax.swing.JFrame {
        MessageView mv;
        ArrayList<Message> msgs = new ArrayList();
        for(Component c : MessagePanel.getComponents()){
+           try{
            mv = (MessageView) c;
            if(mv.isSelected())
                msgs.add(mv.getMessage());
+           }
+           catch(ClassCastException ex){
+               msgs.remove(c);
+           }
        }
        return msgs;
     }
@@ -315,6 +346,10 @@ public class MSNView extends javax.swing.JFrame {
         BtExit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TextMessage = new javax.swing.JTextArea();
+        BtSettings = new javax.swing.JButton();
+        BtCopy = new javax.swing.JButton();
+        BtPaste = new javax.swing.JButton();
+        BtRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dropbox MSN");
@@ -333,6 +368,11 @@ public class MSNView extends javax.swing.JFrame {
         MessageScroll.setPreferredSize(new java.awt.Dimension(711, 1000000));
 
         MessagePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        MessagePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MessagePanelMouseClicked(evt);
+            }
+        });
         MessagePanel.setLayout(new javax.swing.BoxLayout(MessagePanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         jToolBar1.setRollover(true);
@@ -413,23 +453,62 @@ public class MSNView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TextMessage);
 
+        BtSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/settings_icon_xs.png"))); // NOI18N
+        BtSettings.setToolTipText("Configuración (Settings)");
+        BtSettings.setPreferredSize(new java.awt.Dimension(28, 28));
+
+        BtCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/copy_icon.png"))); // NOI18N
+        BtCopy.setToolTipText("Copiar (Copy)");
+        BtCopy.setPreferredSize(new java.awt.Dimension(28, 28));
+        BtCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtCopyActionPerformed(evt);
+            }
+        });
+
+        BtPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/paste_icon.png"))); // NOI18N
+        BtPaste.setToolTipText("Pegar (Paste)");
+        BtPaste.setPreferredSize(new java.awt.Dimension(28, 28));
+        BtPaste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtPasteActionPerformed(evt);
+            }
+        });
+
+        BtRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/delete_icon.png"))); // NOI18N
+        BtRemove.setToolTipText("Borrar (Remove)");
+        BtRemove.setPreferredSize(new java.awt.Dimension(28, 28));
+        BtRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtRemoveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ComboUserState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ComboUserState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BtSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtCopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtPaste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BtRemove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1))
-                    .addComponent(MessageScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                    .addComponent(MessageScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 771, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -443,40 +522,44 @@ public class MSNView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(MessageScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(UserScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(484, 484, 484)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(MessageScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(BtPrivate)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(BtExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BtSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BtCopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BtPaste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BtRemove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(UserScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(BtPrivate)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(BtExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(BtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ComboUserState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(MyUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
         MessageScroll.getAccessibleContext().setAccessibleName("");
+        BtSettings.getAccessibleContext().setAccessibleDescription("");
 
         pack();
         setLocationRelativeTo(null);
@@ -525,13 +608,60 @@ public class MSNView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_TextMessageKeyPressed
 
+    private void BtCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCopyActionPerformed
+        ArrayList <Message> msgs = getSelectedMessages();
+        clipboard = msgs.size()==0?null:new String();
+        if(msgs.size() == 1 && 
+                msgs.get(0).getKind() == MessageKind.PUBLIC || msgs.get(0).getKind() == MessageKind.PRIVATE){
+            clipboard = msgs.get(0).getText();
+        }
+        else{
+            for(Message m : msgs){
+                clipboard += (m.toStringXL() + "\n");
+            }
+        }
+        enableCopyButtons();
+    }//GEN-LAST:event_BtCopyActionPerformed
+
+    private void BtPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPasteActionPerformed
+        TextMessage.setText(TextMessage.getText() + clipboard);
+        enableCopyButtons();
+        setValidText(!TextMessage.getText().trim().isEmpty());
+        
+    }//GEN-LAST:event_BtPasteActionPerformed
+
+    private void BtRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtRemoveActionPerformed
+        for(Component mv : MessagePanel.getComponents()){
+            try{
+                if(((MessageView)mv).isSelected()){
+                    MessagePanel.remove(mv);
+                    mv.repaint();
+                }
+            }
+            catch(ClassCastException ex){
+                MessagePanel.remove(mv);
+            }
+        }
+        MessagePanel.repaint();
+        MessagePanel.revalidate();
+        enableCopyButtons();
+    }//GEN-LAST:event_BtRemoveActionPerformed
+
+    private void MessagePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagePanelMouseClicked
+        enableCopyButtons();
+    }//GEN-LAST:event_MessagePanelMouseClicked
+
     
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtCopy;
     private javax.swing.JButton BtExit;
+    private javax.swing.JButton BtPaste;
     private javax.swing.JToggleButton BtPrivate;
+    private javax.swing.JButton BtRemove;
     private javax.swing.JButton BtSend;
+    private javax.swing.JButton BtSettings;
     private javax.swing.JComboBox ComboUserState;
     private javax.swing.JPanel MessagePanel;
     private javax.swing.JScrollPane MessageScroll;
