@@ -207,7 +207,7 @@ public class Message {
      * @return String with message info.
      */
     public String toStringXL(){
-        return "[" + getDate() + "] " + toString();
+        return "[" + getDateFormat().format(getDate()) + "] " + toString();
     }
     
     @Override
