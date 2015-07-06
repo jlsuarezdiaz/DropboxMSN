@@ -50,4 +50,9 @@ public class Main {
  * Version 1.3 (5/7/2015):
  * - Added colors to user state menu in main view.
  * - Added sending after enter pressed mode.
+ * 
+ * Version 1.4 (6/7/2015):
+ * - Added selected messages management (copy, paste, erase).
+ * - Now copied messaages are added to system clipboard.
+ * - Added settings menu.
  */
