@@ -15,6 +15,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -119,6 +121,9 @@ public class MSNView extends javax.swing.JFrame {
             list.setSelectionBackground(Color.WHITE);
     }
     
+    /**
+     * Enables or disables copying, pasting and removing buttons.
+     */
     private void enableCopyButtons(){
         if(getSelectedMessages().isEmpty()){
             BtCopy.setEnabled(false);
@@ -621,6 +626,11 @@ public class MSNView extends javax.swing.JFrame {
             }
         }
         enableCopyButtons();
+        
+        //Copy to system clipboard.
+        StringSelection stringSelection = new StringSelection (clipboard);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+        clpbrd.setContents (stringSelection, null);
     }//GEN-LAST:event_BtCopyActionPerformed
 
     private void BtPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPasteActionPerformed
