@@ -23,6 +23,8 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,6 +82,7 @@ public class MSNView extends javax.swing.JFrame {
     private String clipboard;
     
     private boolean sound;
+    
     
     
     /**
@@ -352,6 +355,41 @@ public class MSNView extends javax.swing.JFrame {
     
     public void enableSettingsButton(boolean b){
         BtSettings.setEnabled(b);
+    }
+    
+    public void saveMessage(String address, ArrayList<Message> msgs){
+        FileWriter fw = null;
+        
+        if(msgs == null){
+            msgs = new ArrayList();
+            for(Component c: MessagePanel.getComponents()){
+                try{
+                    msgs.add(((MessageView)c).getMessage());
+                }
+                catch(ClassCastException ex){
+                    MessagePanel.remove(c);
+                }
+            }
+        }
+        
+        try{
+            fw = new FileWriter(address);
+            for(Message msg : msgs){
+                fw.write(msg.toStringXL() + "\n");
+            }
+            
+        }
+        catch(IOException ex){
+            JOptionPane.showMessageDialog(null, "Error al guardar el archivo." +
+            "\n[Error: " + ex.getMessage() + "]\n",
+            "Save error",JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+            try{
+                if(fw != null) fw.close();
+            }
+            catch(IOException ex){}
+        }
     }
 
     // ---------- SETTINGS ACCESSORS ---------- //

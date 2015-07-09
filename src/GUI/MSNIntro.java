@@ -81,21 +81,21 @@ public class MSNIntro extends javax.swing.JDialog {
 
         labelAuthor.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         labelAuthor.setForeground(new java.awt.Color(0, 0, 255));
-        labelAuthor.setText("Un programa de: Juan Luis Suárez Díaz");
+        labelAuthor.setText("Un programa de: " + Data.Txt.AUTHOR);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("v1.4");
+        jLabel2.setText(Data.Txt.VERSION);
 
         labelEdition.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         labelEdition.setForeground(new java.awt.Color(0, 0, 255));
-        labelEdition.setText("Drobox MSN Ultimate Java Edition");
+        labelEdition.setText(Data.Txt.EDITION);
 
         labelCopyright.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         labelCopyright.setForeground(new java.awt.Color(0, 0, 255));
         labelCopyright.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelCopyright.setText("© 2015");
+        labelCopyright.setText(Data.Txt.COPYRIGHT + " ");
 
         txtUserName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +140,7 @@ public class MSNIntro extends javax.swing.JDialog {
                                         .addComponent(labelAuthor))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(labelCopyright, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                        .addComponent(labelCopyright, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addComponent(labelAskName)))
                         .addGap(0, 0, Short.MAX_VALUE)))

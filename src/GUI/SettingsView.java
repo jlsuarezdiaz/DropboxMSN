@@ -8,6 +8,7 @@ package GUI;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -24,6 +25,7 @@ public class SettingsView extends javax.swing.JDialog {
         this.ChkEnterSend.setSelected(view.getEnterSendOption());
         this.ChkSound.setSelected(view.getSound());
     }
+    
     
     /**
      * Creates new form SettingsView
@@ -54,6 +56,7 @@ public class SettingsView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         ChkEnterSend = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -64,6 +67,9 @@ public class SettingsView extends javax.swing.JDialog {
         BtCheat = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         BtUpdateUser = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        BtSaveAll = new javax.swing.JButton();
+        BtSaveSelected = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dropbox MSN (Settings)");
@@ -122,6 +128,25 @@ public class SettingsView extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Guardar historial de conversaciones:");
+
+        BtSaveAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/save_icon.png"))); // NOI18N
+        BtSaveAll.setToolTipText("Guardar todos los mensajes.");
+        BtSaveAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtSaveAllActionPerformed(evt);
+            }
+        });
+
+        BtSaveSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/save_icon_selected.png"))); // NOI18N
+        BtSaveSelected.setToolTipText("Guardar solo mensajes seleccionados.");
+        BtSaveSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtSaveSelectedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,7 +170,13 @@ public class SettingsView extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(BtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(ChkSound)
-                            .addComponent(BtUpdateUser))
+                            .addComponent(BtUpdateUser)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(BtSaveAll, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BtSaveSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -172,7 +203,13 @@ public class SettingsView extends javax.swing.JDialog {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtUpdateUser)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtSaveAll)
+                    .addComponent(BtSaveSelected))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,18 +236,40 @@ public class SettingsView extends javax.swing.JDialog {
         view.updateUserForced();
     }//GEN-LAST:event_BtUpdateUserActionPerformed
 
+    private void BtSaveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSaveAllActionPerformed
+        JFileChooser fc = new JFileChooser();
+        //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            view.saveMessage(fc.getSelectedFile().getAbsolutePath(), null);
+        }
+    }//GEN-LAST:event_BtSaveAllActionPerformed
+
+    private void BtSaveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSaveSelectedActionPerformed
+        JFileChooser fc = new JFileChooser();
+        //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            view.saveMessage(fc.getSelectedFile().getAbsolutePath(), view.getSelectedMessages());
+        }
+    }//GEN-LAST:event_BtSaveSelectedActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCheat;
     private javax.swing.JButton BtClear;
+    private javax.swing.JButton BtSaveAll;
+    private javax.swing.JButton BtSaveSelected;
     private javax.swing.JButton BtUpdateUser;
     private javax.swing.JCheckBox ChkEnterSend;
     private javax.swing.JCheckBox ChkSound;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtCheat;
     // End of variables declaration//GEN-END:variables
 }
