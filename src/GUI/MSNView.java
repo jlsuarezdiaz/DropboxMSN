@@ -349,6 +349,10 @@ public class MSNView extends javax.swing.JFrame {
             }).start();
         }
     }
+    
+    public void enableSettingsButton(boolean b){
+        BtSettings.setEnabled(b);
+    }
 
     // ---------- SETTINGS ACCESSORS ---------- //
     public boolean getEnterSendOption(){
@@ -651,14 +655,16 @@ public class MSNView extends javax.swing.JFrame {
     }//GEN-LAST:event_BtPrivateActionPerformed
 
     private void TextMessageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyReleased
-        setValidText(!TextMessage.getText().trim().isEmpty());
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption && validText){
-            performSend();
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption){
+            TextMessage.setText("");
         }
+        setValidText(!TextMessage.getText().trim().isEmpty());
     }//GEN-LAST:event_TextMessageKeyReleased
 
     private void TextMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyPressed
-
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption && validText){
+            performSend();
+        }
     }//GEN-LAST:event_TextMessageKeyPressed
 
     private void BtCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCopyActionPerformed
@@ -711,6 +717,7 @@ public class MSNView extends javax.swing.JFrame {
 
     private void BtSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSettingsActionPerformed
         SettingsView sv = new SettingsView(this,false);
+        enableSettingsButton(false);
         sv.showView(this);
     }//GEN-LAST:event_BtSettingsActionPerformed
 
