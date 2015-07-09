@@ -11,7 +11,7 @@ import GUI.MSNView;
 import Model.User;
 
 /**
- *
+ * Main program
  * @author Juan Luis
  */
 public class Main {
