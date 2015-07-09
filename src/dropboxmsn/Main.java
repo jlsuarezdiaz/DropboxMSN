@@ -55,4 +55,9 @@ public class Main {
  * - Added selected messages management (copy, paste, erase).
  * - Now copied messaages are added to system clipboard.
  * - Added settings menu.
+ * 
+ * Version 2.0 (9/7/2015):
+ * - Improved sending at pressing enter, and the enabling of settings button.
+ * - Added save messages option.
+ * - Added menus about program info.
  */
