@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -70,6 +71,8 @@ public class SettingsView extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         BtSaveAll = new javax.swing.JButton();
         BtSaveSelected = new javax.swing.JButton();
+        BtAbout = new javax.swing.JButton();
+        BtVersions = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dropbox MSN (Settings)");
@@ -147,6 +150,20 @@ public class SettingsView extends javax.swing.JDialog {
             }
         });
 
+        BtAbout.setText("Acerca de Dropbox MSN");
+        BtAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtAboutActionPerformed(evt);
+            }
+        });
+
+        BtVersions.setText("Versiones");
+        BtVersions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtVersionsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -156,28 +173,33 @@ public class SettingsView extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(BtClear, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ChkEnterSend)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ChkSound)
-                            .addComponent(BtUpdateUser)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(BtSaveAll, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BtSaveSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(BtAbout)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(BtVersions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(BtClear, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ChkEnterSend)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(BtCheat, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ChkSound)
+                                .addComponent(BtUpdateUser)
+                                .addComponent(jLabel5)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(BtSaveAll, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(BtSaveSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(0, 0, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -209,7 +231,11 @@ public class SettingsView extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BtSaveAll)
                     .addComponent(BtSaveSelected))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtAbout)
+                    .addComponent(BtVersions))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,14 +280,32 @@ public class SettingsView extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtSaveSelectedActionPerformed
 
+    private void BtAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtAboutActionPerformed
+        JOptionPane.showMessageDialog(this,Data.Txt.EDITION + "\n\n" + Data.Txt.PROGRAM_INFO + "\n\nAutor: " +
+                Data.Txt.AUTHOR + "\nDiseño: " + Data.Txt.AUTHOR + "\nSonido: " + Data.Txt.AUTHOR +"\nProgramación: " +
+                Data.Txt.AUTHOR + "\n\n" +  Data.Txt.COPYRIGHT + "        " + Data.Txt.VERSION,
+                "Acerca de Dropbox MSN", JOptionPane.INFORMATION_MESSAGE,
+                new javax.swing.ImageIcon(getClass().getResource("/Media/msn_ultimate1.png")));         
+    }//GEN-LAST:event_BtAboutActionPerformed
+
+    
+    private void BtVersionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVersionsActionPerformed
+        JOptionPane.showMessageDialog(this,
+                "VERSIÓN ACTUAL:\n" + Data.Txt.LAST_VERSION_INFO + "VERSIONES ANTERIORES:\n" + Data.Txt.OLD_VERSIONS_INFO,
+                "Versiones",JOptionPane.INFORMATION_MESSAGE,
+                new javax.swing.ImageIcon(getClass().getResource("/Media/msn_ultimate1.png")));
+    }//GEN-LAST:event_BtVersionsActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtAbout;
     private javax.swing.JButton BtCheat;
     private javax.swing.JButton BtClear;
     private javax.swing.JButton BtSaveAll;
     private javax.swing.JButton BtSaveSelected;
     private javax.swing.JButton BtUpdateUser;
+    private javax.swing.JButton BtVersions;
     private javax.swing.JCheckBox ChkEnterSend;
     private javax.swing.JCheckBox ChkSound;
     private javax.swing.JFileChooser jFileChooser1;
