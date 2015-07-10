@@ -733,20 +733,24 @@ public class MSNView extends javax.swing.JFrame {
     }//GEN-LAST:event_BtPasteActionPerformed
 
     private void BtRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtRemoveActionPerformed
-        for(Component mv : MessagePanel.getComponents()){
-            try{
-                if(((MessageView)mv).isSelected()){
+        int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres borrar los mensajes? No podrás recuperarlos.",
+                "Borrar mensajes", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(opt == JOptionPane.YES_OPTION){
+            for(Component mv : MessagePanel.getComponents()){
+                try{
+                    if(((MessageView)mv).isSelected()){
+                        MessagePanel.remove(mv);
+                        mv.repaint();
+                    }
+                }
+                catch(ClassCastException ex){
                     MessagePanel.remove(mv);
-                    mv.repaint();
                 }
             }
-            catch(ClassCastException ex){
-                MessagePanel.remove(mv);
-            }
+            MessagePanel.repaint();
+            MessagePanel.revalidate();
+            enableCopyButtons();
         }
-        MessagePanel.repaint();
-        MessagePanel.revalidate();
-        enableCopyButtons();
     }//GEN-LAST:event_BtRemoveActionPerformed
 
     private void MessagePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagePanelMouseClicked

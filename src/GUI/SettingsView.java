@@ -247,7 +247,10 @@ public class SettingsView extends javax.swing.JDialog {
     }//GEN-LAST:event_ChkEnterSendActionPerformed
 
     private void BtClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtClearActionPerformed
-        view.clearMessages();
+        int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres borrar los mensajes? No podrás recuperarlos.",
+                "Borrar mensajes", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(opt == JOptionPane.YES_OPTION)
+            view.clearMessages();
     }//GEN-LAST:event_BtClearActionPerformed
 
     private void ChkSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkSoundActionPerformed
