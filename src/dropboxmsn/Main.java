@@ -60,4 +60,7 @@ public class Main {
  * - Improved sending at pressing enter, and the enabling of settings button.
  * - Added save messages option.
  * - Added menus about program info.
+ * 
+ * Version 2.1
+ * - Added confirm dialog before removing messages.
  */
