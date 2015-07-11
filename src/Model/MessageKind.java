@@ -6,7 +6,8 @@
 package Model;
 
 /**
- *
+ * MessageKind enum.
+ * Displays every way a message can take.
  * @author Juan Luis
  */
 public enum MessageKind {

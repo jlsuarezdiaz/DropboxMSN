@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.Random;
 
 /**
- *
+ * Class MSN.
+ * Class which represents a Messenger structure, with its basic features (send, read, user management).
  * @author Juan Luis
  */
 public class MSN {
@@ -105,7 +106,7 @@ public class MSN {
     // ---------- GET METHODS ----------//
     
     /**
-     * 
+     * Get user.
      * @return Messenger user.
      */
     public User getUser(){
@@ -113,13 +114,17 @@ public class MSN {
     }
     
     /**
-     * 
+     * Get available users.
      * @return list of users in messenger. 
      */
     public User[] getUserList(){
         return user_list;
     }
     
+    /**
+     * Get size of channel list.
+     * @return Number of channels.
+     */
     public static int getMaxChannels(){
         return MAX_CHANNELS;
     }
@@ -136,6 +141,11 @@ public class MSN {
         nextChannel();
     }
     
+    /**
+     * Send a message to a specific user.
+     * @param message Message to send.
+     * @param user User to be send message.
+     */
     public void send(Message message,User user){
         message.write(getMsgFile(user.getUid(),current_channel));
         nextChannel();

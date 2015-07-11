@@ -128,6 +128,7 @@ public class Message {
     public static DateFormat getDateFormat(){
         return df;
     }
+    
     /**
      * Writes the message in a file.
      * @param filename File's name.
@@ -180,6 +181,7 @@ public class Message {
     public boolean isEmpty(){
         return ("".equals(this.sender) || " ".equals(this.sender)) && ("".equals(this.text) || " ".equals(this.text));
     }
+    
     /**
      * Obtains a string with the message.
      * @return String with the message.
@@ -210,6 +212,11 @@ public class Message {
         return "[" + getDateFormat().format(getDate()) + "] " + toString();
     }
     
+    /**
+     * Message comparer.
+     * @param obj Object to compare
+     * @return true if and only if messages are equal.
+     */
     @Override
     public boolean equals(Object obj){
         if(obj == null)

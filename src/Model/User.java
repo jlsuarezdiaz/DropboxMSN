@@ -7,7 +7,6 @@ package Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -17,8 +16,6 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Class user. It contains information related to a user's state in the MSN.
@@ -129,6 +126,10 @@ public class User {
         return current_time;
     }
     
+    /**
+     * Gets date format used in user's output
+     * @return Date format.
+     */
     public static DateFormat getDateFormat(){
         return df;
     }

@@ -6,6 +6,7 @@
 package Model;
 
 /**
+ * User State enum.
  * Possible states for a user.
  * @author Juan Luis
  */
