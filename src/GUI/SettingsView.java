@@ -12,7 +12,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Class SettingsView.
+ * Dialog form to set main features for a MSNView.
  * @author Juan Luis
  */
 public class SettingsView extends javax.swing.JDialog {
@@ -21,6 +22,10 @@ public class SettingsView extends javax.swing.JDialog {
      */
     private MSNView view;
     
+    /**
+     * Sets the setting view.
+     * @param mv MSNView to apply settings.
+     */
     private void setView(MSNView mv){
         this.view = mv;
         this.ChkEnterSend.setSelected(view.getEnterSendOption());
@@ -43,6 +48,10 @@ public class SettingsView extends javax.swing.JDialog {
         });
     }
 
+    /**
+     * Shows setting view.
+     * @param mv MSNView to apply settings.
+     */
     public void showView(MSNView mv){
         this.setView(mv);
         this.setVisible(true);
@@ -242,10 +251,18 @@ public class SettingsView extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Send-at-enter option changed event.
+     * @param evt 
+     */
     private void ChkEnterSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkEnterSendActionPerformed
         view.setEnterSendOption(ChkEnterSend.isSelected());
     }//GEN-LAST:event_ChkEnterSendActionPerformed
 
+    /**
+     * Clear messages button event.
+     * @param evt 
+     */
     private void BtClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtClearActionPerformed
         int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres borrar los mensajes? No podrás recuperarlos.",
                 "Borrar mensajes", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -253,18 +270,34 @@ public class SettingsView extends javax.swing.JDialog {
             view.clearMessages();
     }//GEN-LAST:event_BtClearActionPerformed
 
+    /**
+     * Sound changed event.
+     * @param evt 
+     */
     private void ChkSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkSoundActionPerformed
         view.setSound(ChkSound.isSelected());
     }//GEN-LAST:event_ChkSoundActionPerformed
 
+    /**
+     * Cheat button event.
+     * @param evt 
+     */
     private void BtCheatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCheatActionPerformed
         txtCheat.setText("");
     }//GEN-LAST:event_BtCheatActionPerformed
 
+    /**
+     * User update event.
+     * @param evt 
+     */
     private void BtUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtUpdateUserActionPerformed
         view.updateUserForced();
     }//GEN-LAST:event_BtUpdateUserActionPerformed
 
+    /**
+     * Save button event.
+     * @param evt 
+     */
     private void BtSaveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSaveAllActionPerformed
         JFileChooser fc = new JFileChooser();
         //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -274,6 +307,10 @@ public class SettingsView extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtSaveAllActionPerformed
 
+    /**
+     * Save selected button event.
+     * @param evt 
+    */
     private void BtSaveSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSaveSelectedActionPerformed
         JFileChooser fc = new JFileChooser();
         //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -283,6 +320,10 @@ public class SettingsView extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtSaveSelectedActionPerformed
 
+    /**
+     * About button event.
+     * @param evt 
+     */
     private void BtAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtAboutActionPerformed
         JOptionPane.showMessageDialog(this,Data.Txt.EDITION + "\n\n" + Data.Txt.PROGRAM_INFO + "\n\nAutor: " +
                 Data.Txt.AUTHOR + "\nDiseño: " + Data.Txt.AUTHOR + "\nSonido: " + Data.Txt.AUTHOR +"\nProgramación: " +
@@ -291,7 +332,10 @@ public class SettingsView extends javax.swing.JDialog {
                 new javax.swing.ImageIcon(getClass().getResource("/Media/msn_ultimate1.png")));         
     }//GEN-LAST:event_BtAboutActionPerformed
 
-    
+    /**
+     * Versions button event.
+     * @param evt 
+     */
     private void BtVersionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVersionsActionPerformed
         JOptionPane.showMessageDialog(this,
                 "VERSIÓN ACTUAL:\n" + Data.Txt.LAST_VERSION_INFO + "VERSIONES ANTERIORES:\n" + Data.Txt.OLD_VERSIONS_INFO,

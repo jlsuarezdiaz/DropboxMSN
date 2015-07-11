@@ -7,11 +7,10 @@ package GUI;
 
 import Model.Message;
 import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JScrollBar;
 
 /**
- *
+ * Class MessageView.
+ * A GUI for class Message.
  * @author Juan Luis
  */
 public class MessageView extends javax.swing.JPanel {
@@ -26,7 +25,9 @@ public class MessageView extends javax.swing.JPanel {
      */
     boolean isSelected;
     
-    
+    /**
+     * Private method to set background according to selection.
+     */
     private void setBackground(){
         if(isSelected){
             this.setBackground(new Color(0x00FFFF));
@@ -77,6 +78,10 @@ public class MessageView extends javax.swing.JPanel {
         repaint();
     }
     
+    /**
+     * Gets the message referenced by the view.
+     * @return message.
+     */
     public Message getMessage(){
         return messageModel;
     }
@@ -137,6 +142,10 @@ public class MessageView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Mouse clicked event. Allows selection.
+     * @param evt 
+     */
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         select(!isSelected);
     }//GEN-LAST:event_formMouseClicked

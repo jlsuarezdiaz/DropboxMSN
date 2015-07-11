@@ -11,13 +11,19 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- *
+ * Class UserView.
+ * A GUI for class User.
  * @author Juan Luis
  */
 public class UserView extends javax.swing.JPanel {
-
+    /**
+     * User.
+     */
     private User userModel;
     
+    /**
+     * Selected checker.
+     */
     private boolean isSelected;
     
     /**
@@ -30,6 +36,9 @@ public class UserView extends javax.swing.JPanel {
         this.labelDate.setForeground(c);
     }
     
+    /**
+     * Private method to fit the font size according to name length.
+     */
     private void setNameFont(){
         // Compute the font size needed for the user name.
         String name = userModel.getName();
@@ -48,6 +57,9 @@ public class UserView extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Private method to set background according to selection.
+     */
     private void setBackground(){
         if(isSelected){
             this.setBackground(new Color(0x00FFFF));
@@ -61,6 +73,7 @@ public class UserView extends javax.swing.JPanel {
          * 0x999999 gris oscuro
          */
     }
+    
     /**
      * Creates new form UserView
      */
@@ -120,6 +133,10 @@ public class UserView extends javax.swing.JPanel {
         repaint();
     }
 
+    /**
+     * Set visible method.
+     * @param bln 
+     */
     @Override
     public void setVisible(boolean bln){
         super.setVisible(bln);
@@ -184,6 +201,10 @@ public class UserView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Mouse clicked event. Allows selection.
+     * @param evt 
+     */
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         select(!isSelected);
     }//GEN-LAST:event_formMouseClicked

@@ -41,7 +41,8 @@ import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicComboPopup;
 
 /**
- *
+ * Class MSNView.
+ * A messenger GUI.
  * @author Juan Luis
  */
 public class MSNView extends javax.swing.JFrame {
@@ -51,23 +52,54 @@ public class MSNView extends javax.swing.JFrame {
      */
     private MSNController msn_ctrl;
    
+    /**
+     * Reader handler.
+     */
     private final ActionListener taskReader;
     
+    /**
+     * Private reader handler.
+     */
     private final ActionListener taskPrivateReader;
     
+    /**
+     * User updater handler.
+     */
     private final ActionListener taskUserUpdater;
     
+    /**
+     * User list updater handler.
+     */
     private final ActionListener taskListUserUpdater;
     
+    /**
+     * Reader timer.
+     */
     private final Timer timerReader;
     
+    /**
+     * Private reader timer.
+     */
     private final Timer timerPrivateReader;
     
+    /**
+     * User updater timer.
+     */
     private final Timer timerUserUpdater;
     
+    /**
+     * User list updater timer.
+     */
     private final Timer timerListUserUpdater;
     
+    /**
+     * State colors array.
+     */
     private static final Color[] state_colors = {Color.GREEN,Color.ORANGE,Color.RED,Color.BLACK};
+    
+    /**
+     * State names array.
+     */
     private static final String[] state_names = {"ONLINE","ABSENT","BUSY","OFF"};
     
     
@@ -77,10 +109,19 @@ public class MSNView extends javax.swing.JFrame {
     boolean validText;
     
     // ---------- SETTINGS ATTRIBUTES ---------- //
+    /**
+     * Allows sending after pressing Enter.
+     */
     private boolean enterSendOption;
     
+    /**
+     * Text copied in clipboard.
+     */
     private String clipboard;
     
+    /**
+     * Allows sound when receiving a message.
+     */
     private boolean sound;
     
     
@@ -203,6 +244,9 @@ public class MSNView extends javax.swing.JFrame {
         enableCopyButtons();
     }
 
+    /**
+     * Shows MSNView.
+     */
     public void showView(){
         this.setVisible(true);
         TextMessage.grabFocus();
@@ -210,6 +254,10 @@ public class MSNView extends javax.swing.JFrame {
         TextMessage.requestFocus();
     }
     
+    /**
+     * Set the view of MSN
+     * @param msn msn_controller that will set the view.
+     */
     public void setMSN(MSNController msn){
         this.msn_ctrl = msn;
         MyUserPanel.setUser(msn_ctrl.getUser());
@@ -222,6 +270,10 @@ public class MSNView extends javax.swing.JFrame {
         timerListUserUpdater.start();
     }
     
+    /**
+     * Enables or disables essential MSNView components.
+     * @param enabled Determines enabling or disabling.
+     */
     public void enableMSNComponents(boolean enabled){
         this.BtPrivate.setEnabled(enabled);
         setValidText(enabled && !TextMessage.getText().trim().isEmpty());
@@ -232,6 +284,10 @@ public class MSNView extends javax.swing.JFrame {
         this.UsersPanel.setEnabled(enabled);
     }
     
+    /**
+     * Adds a new message to message panel.
+     * @param msg Message to add.
+     */
     public void pushMessage(Message msg){
         boolean isOnBottom = MessageScroll.getVerticalScrollBar().getValue() == 
                 MessageScroll.getVerticalScrollBar().getMaximum()-MessageScroll.getVerticalScrollBar().getVisibleAmount();
@@ -261,6 +317,10 @@ public class MSNView extends javax.swing.JFrame {
         //});
     }
     
+    /**
+     * Gets users on user list which are selected by the MSN user.
+     * @return Array with selected users.
+     */
     public ArrayList<User> getSelectedUsers(){
        UserView uv;
        ArrayList<User> users = new ArrayList();
@@ -272,6 +332,10 @@ public class MSNView extends javax.swing.JFrame {
        return users;
     }
     
+    /**
+     * Gets messages on message panel which are selected by the MSN user.
+     * @return Array with selected messages.
+     */
     public ArrayList<Message> getSelectedMessages(){
        MessageView mv;
        ArrayList<Message> msgs = new ArrayList();
@@ -288,12 +352,19 @@ public class MSNView extends javax.swing.JFrame {
        return msgs;
     }
     
+    /**
+     * Removes all messages from message panel.
+     */
     public void clearMessages(){
         MessagePanel.removeAll();
         MessagePanel.repaint();
         MessagePanel.revalidate();
     }
     
+    /**
+     * Fills the user list.
+     * @param user_list Array of users that will fill the panel.
+     */
     public void fillUserPanel(User[] user_list){
         UsersPanel.removeAll();
         for(User u: user_list){
@@ -306,6 +377,10 @@ public class MSNView extends javax.swing.JFrame {
         UsersPanel.revalidate();
     }
     
+    /**
+     * Updates user panel.
+     * @param user_list Array of users that will update user panel.
+     */
     public void updateUserPanel(User[] user_list){
         boolean selection_now;
         //UserView view;
@@ -322,6 +397,9 @@ public class MSNView extends javax.swing.JFrame {
         UsersPanel.repaint();
     }
     
+    /**
+     * Forces the MSN user update, independently of the state of user updater handler.
+     */
     public void updateUserForced(){
         try {
             msn_ctrl.updateUser(true);
@@ -331,12 +409,19 @@ public class MSNView extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Shows User Overflow exception message dialog.
+     * @param ex User Overflow exception.
+     */
     public static void showUserOverflowMsg(UserOverflowException ex){
         JOptionPane.showMessageDialog(null, "Dropbox MSN está desbordado en estos instantes. Inténtelo más tarde." +
             "\n[Error: " + ex.getMessage() + "]\n",
             "User Overflow",JOptionPane.ERROR_MESSAGE);
     }
     
+    /**
+     * Performs message received sound, if sound setting allows it.
+     */
     public void messageSound(){
         if(sound){
             new Thread(() -> {
@@ -353,10 +438,19 @@ public class MSNView extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Enables or disables settings button.
+     * @param b Determines if enabling of disabling.
+     */
     public void enableSettingsButton(boolean b){
         BtSettings.setEnabled(b);
     }
     
+    /**
+     * Saves the given messages in a file.
+     * @param address String with file's path.
+     * @param msgs Array with messages to save. If null, it will contain the whole message panel.
+     */
     public void saveMessage(String address, ArrayList<Message> msgs){
         FileWriter fw = null;
         
@@ -393,18 +487,30 @@ public class MSNView extends javax.swing.JFrame {
     }
 
     // ---------- SETTINGS ACCESSORS ---------- //
+    /**
+     * Gets the value of sending when pressing enter option.
+     */
     public boolean getEnterSendOption(){
         return enterSendOption;
     }
     
+    /**
+     * Sets the value of sending when pressing enter option.
+     */
     public void setEnterSendOption(boolean b){
         enterSendOption = b;
     }
     
+    /**
+     * Gets the value of sounding option.
+     */
     public boolean getSound(){
         return sound;
     }
     
+    /**
+     * Sets the value of sounding option.
+     */
     public void setSound(boolean b){
         sound = b;
     }
@@ -660,6 +766,10 @@ public class MSNView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * User state changed event.
+     * @param evt 
+     */
     private void ComboUserStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboUserStateActionPerformed
         try {
             updateStateBoxColor();
@@ -671,16 +781,28 @@ public class MSNView extends javax.swing.JFrame {
             showUserOverflowMsg(ex);
         }
     }//GEN-LAST:event_ComboUserStateActionPerformed
-
+    
+    /**
+     * Button sending event.
+     * @param evt 
+     */
     private void BtSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSendActionPerformed
         if(validText) performSend();
     }//GEN-LAST:event_BtSendActionPerformed
 
+    /**
+     * Button exit event.
+     * @param evt 
+     */
     private void BtExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtExitActionPerformed
         msn_ctrl.stop();
         System.exit(0);
     }//GEN-LAST:event_BtExitActionPerformed
 
+    /**
+     * Button private mode event.
+     * @param evt 
+     */
     private void BtPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPrivateActionPerformed
         if(BtPrivate.isSelected()){
             BtPrivate.setToolTipText("El modo privado está activado. Seleccione a los usuarios de la lista "+
@@ -692,6 +814,10 @@ public class MSNView extends javax.swing.JFrame {
         }       
     }//GEN-LAST:event_BtPrivateActionPerformed
 
+    /**
+     * Key released event on message text area. Enables sending button or empties text area if needed.
+     * @param evt 
+     */
     private void TextMessageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyReleased
         if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption){
             TextMessage.setText("");
@@ -699,12 +825,20 @@ public class MSNView extends javax.swing.JFrame {
         setValidText(!TextMessage.getText().trim().isEmpty());
     }//GEN-LAST:event_TextMessageKeyReleased
 
+    /**
+     * Key pressed event on message text area. Sends the message if needed and allowed.
+     * @param evt 
+     */
     private void TextMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextMessageKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER && enterSendOption && validText){
             performSend();
         }
     }//GEN-LAST:event_TextMessageKeyPressed
 
+    /**
+     * Copy button event.
+     * @param evt 
+     */
     private void BtCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCopyActionPerformed
         ArrayList <Message> msgs = getSelectedMessages();
         clipboard = msgs.size()==0?null:new String();
@@ -725,6 +859,10 @@ public class MSNView extends javax.swing.JFrame {
         clpbrd.setContents (stringSelection, null);
     }//GEN-LAST:event_BtCopyActionPerformed
 
+    /**
+     * Paste button event.
+     * @param evt 
+     */
     private void BtPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPasteActionPerformed
         TextMessage.setText(TextMessage.getText() + clipboard);
         enableCopyButtons();
@@ -732,6 +870,10 @@ public class MSNView extends javax.swing.JFrame {
         
     }//GEN-LAST:event_BtPasteActionPerformed
 
+    /**
+     * Remove button event.
+     * @param evt 
+     */
     private void BtRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtRemoveActionPerformed
         int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres borrar los mensajes? No podrás recuperarlos.",
                 "Borrar mensajes", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -753,10 +895,18 @@ public class MSNView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BtRemoveActionPerformed
 
+    /**
+     * Message panel clicked event. Allows message managing buttons if needed.
+     * @param evt 
+     */
     private void MessagePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagePanelMouseClicked
         enableCopyButtons();
     }//GEN-LAST:event_MessagePanelMouseClicked
 
+    /**
+     * Settings button event. Shows settings view.
+     * @param evt 
+     */
     private void BtSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSettingsActionPerformed
         SettingsView sv = new SettingsView(this,false);
         enableSettingsButton(false);

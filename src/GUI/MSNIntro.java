@@ -14,7 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Class MSNIntro.
+ * The Messenger introducer interface.
  * @author Juan Luis
  */
 public class MSNIntro extends javax.swing.JDialog {
@@ -178,11 +179,18 @@ public class MSNIntro extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Set the validity of user name and enables starting button if needed.
+     * @param valid Boolean indicating name's validity.
+     */
     private void setValidName(boolean valid){
         validName = valid;
         btStart.setEnabled(validName);
     }
     
+    /**
+     * Reads the user name and inits the messenger.
+     */
     private void performReadName(){
         try {
             user = new User(this.txtUserName.getText());
@@ -192,18 +200,35 @@ public class MSNIntro extends javax.swing.JDialog {
             System.exit(0);
         }
     }
+    
+    /**
+     * Start button event.
+     * @param evt 
+     */
     private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
         if(validName) performReadName();
     }//GEN-LAST:event_btStartActionPerformed
 
+    /**
+     * Enter pressing event.
+     * @param evt 
+     */
     private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
         if(validName) performReadName();
     }//GEN-LAST:event_txtUserNameActionPerformed
 
+    /**
+     * Key released event. Sets validity of the name.
+     * @param evt 
+     */
     private void txtUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyReleased
         setValidName(!txtUserName.getText().trim().isEmpty());
     }//GEN-LAST:event_txtUserNameKeyReleased
 
+    /**
+     * Shows the view to get the user name.
+     * @return 
+     */
     public User getUser(){
         this.setVisible(true);
         return user;
