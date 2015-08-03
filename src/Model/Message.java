@@ -7,8 +7,10 @@ package Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -134,9 +136,11 @@ public class Message {
      * @param filename File's name.
      */
     public void write(String filename){
-        FileWriter fw = null;
+        //FileWriter fw = null;
+        OutputStreamWriter fw = null;
         try{
-            fw = new FileWriter(filename);
+            //fw = new FileWriter(filename);
+            fw = new OutputStreamWriter(new FileOutputStream(filename),"UTF-8");
             fw.write(sender + IO_LIM + text + IO_LIM + kind.toString() + IO_LIM + df.format(date) + IO_LIM);
         }
         catch(IOException ex){}
@@ -158,7 +162,7 @@ public class Message {
         
         if(f.exists()){
             try {
-                scan = new Scanner(f);
+                scan = new Scanner(f,"UTF-8");
                 scan.useDelimiter(IO_LIM);
                 sender = scan.next();
                 text = scan.next();

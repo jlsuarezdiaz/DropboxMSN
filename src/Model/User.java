@@ -7,8 +7,10 @@ package Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -235,9 +237,11 @@ public class User {
      * @param file 
      */
     public void write(String file){
-        FileWriter fw = null;
+        //FileWriter fw = null;
+        OutputStreamWriter fw = null;
         try{
-            fw = new FileWriter(file);
+            //fw = new FileWriter(file);
+            fw = new OutputStreamWriter(new FileOutputStream(file),"UTF-8");
             fw.write(Integer.toString(uid) + IO_LIM);
             fw.write(name + IO_LIM);
             fw.write(state.toString() + IO_LIM);
@@ -270,7 +274,7 @@ public class User {
         
         if(f.exists()){
             try {
-                scan = new Scanner(f);
+                scan = new Scanner(f,"UTF-8");
                 scan.useDelimiter(IO_LIM);
                 uid = Integer.parseInt(scan.next());
                 name = scan.next();
