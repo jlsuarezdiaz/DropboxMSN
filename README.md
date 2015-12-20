@@ -5,6 +5,9 @@ A messenger for Dropbox.
 
 **Author:** Juan Luis Suárez Díaz.
 
+Dropbox MSN is no longer supported in this way. If you want to get the latest version, visit [No More Dropbox MSN](https://github.com/jlsuarezdiaz/NoMoreDropboxMSN).
+
+
 ## Install
 
 - Clone this repository and import it in Netbeans IDE.
